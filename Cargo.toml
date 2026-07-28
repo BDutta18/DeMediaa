@@ -1,0 +1,24 @@
+[workspace]
+resolver = "2"
+members = [
+    "contracts/access_control",
+    "contracts/content_nft",
+    "contracts/royalty_manager",
+    "contracts/payment_escrow",
+    "contracts/subscription_manager",
+    "contracts/content_registry",
+    "contracts/license_marketplace",
+]
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+overflow-checks = true
+
+[profile.release-with-debug]
+inherits = "release"
+debug = true
+strip = false

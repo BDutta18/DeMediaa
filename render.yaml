@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: demedia-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: PRIVATE_KEY
+        sync: false
+      - key: RPC_URL
+        value: https://soroban-testnet.stellar.org:443
+      - key: PINATA_API_KEY
+        sync: false
+      - key: PINATA_API_SECRET
+        sync: false
+      - key: PINATA_JWT
+        sync: false
+      - key: PINATA_GATEWAY
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: TOKEN_EXPIRY
+        value: 7d
+      - key: CONTRACT_ADDRESS_CONTENTREGISTRY
+        value: CCHCKK24M5DPUCS3AMLS3SC5DFU42L6YXLN7PH5NFQ7EX63COGJSBIRM

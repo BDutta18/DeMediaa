@@ -1,0 +1,151 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #050816;
+  --foreground: oklch(0.95 0.01 95);
+  --card: oklch(0.16 0.012 95);
+  --card-foreground: oklch(0.95 0.01 95);
+  --popover: oklch(0.14 0.012 95);
+  --popover-foreground: oklch(0.95 0.01 95);
+  --primary: #4f8cff;
+  --primary-foreground: #ffffff;
+  --secondary: oklch(0.2 0.014 95);
+  --secondary-foreground: oklch(0.93 0.01 95);
+  --muted: oklch(0.2 0.01 95);
+  --muted-foreground: oklch(0.76 0.01 95);
+  --accent: #00d4ff;
+  --accent-foreground: #ffffff;
+  --destructive: oklch(0.6 0.2 24);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.3 0.02 95);
+  --input: oklch(0.3 0.02 95);
+  --ring: oklch(0.84 0.18 92);
+  --radius: 0.9rem;
+}
+
+.dark {
+  --background: oklch(0.1 0.008 95);
+  --foreground: oklch(0.95 0.01 95);
+  --card: oklch(0.14 0.01 95);
+  --card-foreground: oklch(0.95 0.01 95);
+  --popover: oklch(0.12 0.01 95);
+  --popover-foreground: oklch(0.95 0.01 95);
+  --primary: oklch(0.84 0.18 92);
+  --primary-foreground: oklch(0.14 0.01 95);
+  --secondary: oklch(0.18 0.012 95);
+  --secondary-foreground: oklch(0.93 0.01 95);
+  --muted: oklch(0.18 0.01 95);
+  --muted-foreground: oklch(0.76 0.01 95);
+  --accent: oklch(0.84 0.18 92);
+  --accent-foreground: oklch(0.14 0.01 95);
+  --destructive: oklch(0.66 0.2 24);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.28 0.015 95);
+  --input: oklch(0.28 0.015 95);
+  --ring: oklch(0.84 0.18 92);
+}
+
+@theme inline {
+  --font-sans: "Manrope", "DM Sans", "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Manrope", sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html,
+  body {
+    @apply min-h-full;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at 8% 0%, rgba(79, 140, 255, 0.2), transparent 38%),
+      radial-gradient(circle at 90% 10%, rgba(0, 212, 255, 0.13), transparent 34%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 30%);
+  }
+
+  a {
+    @apply transition-colors;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 28%, white 0%);
+    color: white;
+  }
+}
+
+@layer utilities {
+  .page-shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .panel {
+    @apply rounded-2xl border border-border/70 bg-card/80 backdrop-blur;
+  }
+
+  .panel-elevated {
+    @apply rounded-2xl border border-border/70 bg-card/80 backdrop-blur shadow-[0_20px_50px_rgba(5,15,35,0.25)];
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .apple-shell {
+    @apply mx-auto w-full max-w-6xl px-4 text-[#1d1d1f] sm:px-6 lg:px-8;
+  }
+
+  .apple-card {
+    @apply rounded-[28px] border border-[#d2d2d7] bg-white shadow-[0_18px_45px_rgba(0,0,0,0.08)];
+  }
+
+  .apple-title {
+    @apply font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight sm:text-5xl;
+  }
+
+  .apple-muted {
+    @apply text-sm leading-6 text-[#6e6e73];
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,38 @@
+<svg width="260" height="260" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="arcWarm" x1="26" y1="130" x2="234" y2="130" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F97316"/>
+      <stop offset="0.45" stop-color="#EF4444"/>
+      <stop offset="1" stop-color="#DC2626"/>
+    </linearGradient>
+    <linearGradient id="arcCool" x1="34" y1="78" x2="226" y2="188" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9"/>
+      <stop offset="0.55" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <linearGradient id="dFill" x1="52" y1="84" x2="142" y2="158" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9"/>
+      <stop offset="0.55" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#1E40AF"/>
+    </linearGradient>
+    <linearGradient id="mFill" x1="142" y1="82" x2="248" y2="158" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F59E0B"/>
+      <stop offset="0.35" stop-color="#EF4444"/>
+      <stop offset="1" stop-color="#DC2626"/>
+    </linearGradient>
+    <filter id="softGlow" x="0" y="0" width="260" height="260" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#softGlow)">
+    <path d="M26 132C46 70 101 32 165 32C194 32 221 41 234 53" stroke="url(#arcWarm)" stroke-width="18" stroke-linecap="round"/>
+    <path d="M30 148C50 208 104 228 164 228C191 228 214 220 226 208" stroke="url(#arcWarm)" stroke-width="14" stroke-linecap="round"/>
+    <path d="M42 106C63 75 101 57 141 57C178 57 210 72 224 93" stroke="url(#arcCool)" stroke-width="10" stroke-linecap="round"/>
+    <path d="M46 170C66 195 101 209 140 209C174 209 202 198 218 180" stroke="url(#arcCool)" stroke-width="10" stroke-linecap="round"/>
+
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M52 82H100C127 82 142 98 142 120C142 142 127 158 100 158H52V82ZM74 103V137H98C109 137 118 131 118 120C118 109 109 103 98 103H74Z" fill="url(#dFill)"/>
+    <path d="M142 158L160 82H178L194 124L212 82H230L248 158H224L214 112L196 158H177L158 112L148 158H142Z" fill="url(#mFill)"/>
+  </g>
+</svg>

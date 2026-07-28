@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "cross-env NODE_ENV=development tsx -r dotenv/config src/index.ts"
+}
