@@ -9,6 +9,8 @@ import { GlassPanel } from "@/components/ui/glass-panel"
 import { useLenis } from "@/hooks/use-lenis"
 import { BrandLockup } from "@/components/brand-lockup"
 
+const MotionDiv = motion.div as any
+
 const realPhotography = [
   {
     src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=85",
@@ -41,11 +43,11 @@ function Hero() {
         alt="Creators collaborating around digital content"
         className="absolute inset-0 h-full w-full object-cover opacity-35"
       />
-      <motion.div
+      <MotionDiv
         style={{ scale }}
         className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,22,0.72)_0%,rgba(5,8,22,0.82)_58%,#050816_100%)]"
       />
-      <motion.div style={{ opacity }} className="absolute inset-0 bg-[linear-gradient(180deg,transparent_60%,#050816_100%)]" />
+      <MotionDiv style={{ opacity }} className="absolute inset-0 bg-[linear-gradient(180deg,transparent_60%,#050816_100%)]" />
       <div className="absolute left-0 top-1 z-20 sm:left-2 sm:top-3">
         <BrandLockup />
       </div>
@@ -91,7 +93,7 @@ function StickyStory() {
             ["03", "Monetize Flows", "Licensing, royalties, and subscriptions stream through policy rails."],
             ["04", "Govern with Community", "Proposals, voting, treasury execution, and accountable upgrades."],
           ].map(([id, title, text], i) => (
-            <motion.div
+            <MotionDiv
               key={id}
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -103,7 +105,7 @@ function StickyStory() {
                 <h3 className="mt-2 text-2xl font-medium">{title}</h3>
                 <p className="mt-3 text-zinc-300">{text}</p>
               </GlassPanel>
-            </motion.div>
+            </MotionDiv>
           ))}
         </div>
       </div>
@@ -120,7 +122,7 @@ function VisualGallery() {
       </p>
       <div className="mt-14 grid gap-4 sm:grid-cols-2">
         {realPhotography.map((photo, i) => (
-          <motion.div
+          <MotionDiv
             key={photo.src}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -141,7 +143,7 @@ function VisualGallery() {
                 <p className="absolute bottom-4 left-4 text-sm text-zinc-100">{photo.label}</p>
               </div>
             </GlassPanel>
-          </motion.div>
+          </MotionDiv>
         ))}
       </div>
     </section>

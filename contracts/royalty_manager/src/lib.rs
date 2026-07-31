@@ -31,10 +31,9 @@ impl RoyaltyManager {
             return Err(Error::InvalidInput);
         }
 
-        env.storage().instance().set(
-            &DataKey::Royalty(token_id),
-            &(creator, royalty_percentage),
-        );
+        env.storage()
+            .instance()
+            .set(&DataKey::Royalty(token_id), &(creator, royalty_percentage));
         Ok(())
     }
 
@@ -54,12 +53,10 @@ impl RoyaltyManager {
             .storage()
             .instance()
             .get(&DataKey::Pending(creator.clone()));
-        env.storage()
-            .instance()
-            .set(
-                &DataKey::Pending(creator),
-                &(current_pending.unwrap_or(0) + royalty_amount),
-            );
+        env.storage().instance().set(
+            &DataKey::Pending(creator),
+            &(current_pending.unwrap_or(0) + royalty_amount),
+        );
         Ok(royalty_amount)
     }
 
@@ -79,10 +76,7 @@ impl RoyaltyManager {
     }
 
     pub fn get_pending_royalties(env: Env, creator: Address) -> i128 {
-        let pending: Option<i128> = env
-            .storage()
-            .instance()
-            .get(&DataKey::Pending(creator));
+        let pending: Option<i128> = env.storage().instance().get(&DataKey::Pending(creator));
         pending.unwrap_or(0)
     }
 }

@@ -6,6 +6,23 @@ on:
   pull_request:
 
 jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install workspace tooling
+        run: npm install --no-package-lock
+
+      - name: Check formatting
+        run: npm run format:check
+
   frontend:
     runs-on: ubuntu-latest
     defaults:
@@ -27,6 +44,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
 
       - name: Build
         run: npm run build
@@ -50,6 +70,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
       - name: Build
         run: npm run build
 
@@ -66,6 +92,13 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
+          components: rustfmt
 
-      - name: Build contracts
-        run: bash scripts/build.sh
+      - name: Format check
+        run: cargo fmt --all --check
+
+      - name: Build workspace
+        run: cargo build --workspace
+
+      - name: Test workspace
+        run: cargo test --workspace

@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "tsc",
+    "lint": "tsc --noEmit",
     "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
     "test": "npm run build && node --test dist/__tests__/*.js"
   },
   "dependencies": {

@@ -34,7 +34,11 @@ impl SubscriptionManager {
         tier: u32,
         duration_seconds: u64,
     ) -> Result<u64, Error> {
-        let mut next_id: u64 = env.storage().instance().get(&DataKey::NextSubId).unwrap_or(1);
+        let mut next_id: u64 = env
+            .storage()
+            .instance()
+            .get(&DataKey::NextSubId)
+            .unwrap_or(1);
         let sub_id = next_id;
         next_id += 1;
 
@@ -66,13 +70,10 @@ impl SubscriptionManager {
     }
 
     pub fn validate_access(env: Env, subscriber: Address, content_id: u128) -> bool {
-        let access: Option<bool> = env
-            .storage()
-            .instance()
-            .get(&DataKey::Access(AccessKey {
-                subscriber,
-                content_id,
-            }));
+        let access: Option<bool> = env.storage().instance().get(&DataKey::Access(AccessKey {
+            subscriber,
+            content_id,
+        }));
         access.unwrap_or(false)
     }
 

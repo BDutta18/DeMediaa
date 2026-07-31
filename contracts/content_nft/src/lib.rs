@@ -44,9 +44,10 @@ impl ContentNFT {
         env.storage()
             .instance()
             .set(&DataKey::Owner(token_id), &creator);
-        env.storage()
-            .instance()
-            .set(&DataKey::Metadata(token_id), &(metadata_hash, royalty_percentage));
+        env.storage().instance().set(
+            &DataKey::Metadata(token_id),
+            &(metadata_hash, royalty_percentage),
+        );
         env.storage().instance().set(&DataKey::TokenCount, &count);
 
         Ok(token_id)

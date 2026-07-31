@@ -1,0 +1,47 @@
+{
+  "name": "demedia-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "husky",
+    "lint:frontend": "npm --prefix frontend run lint",
+    "typecheck:frontend": "npm --prefix frontend run typecheck",
+    "build:frontend": "npm --prefix frontend run build",
+    "lint:backend": "npm --prefix backend run lint",
+    "typecheck:backend": "npm --prefix backend run typecheck",
+    "build:backend": "npm --prefix backend run build",
+    "test:backend": "npm --prefix backend test",
+    "format:frontend": "npm --prefix frontend run format",
+    "format:backend": "npm --prefix backend run format",
+    "format:check": "prettier --check \"frontend/**/*.{ts,tsx,js,jsx,json,md,css,mjs,mts}\" \"backend/**/*.{ts,js,json,md,css}\" \"*.{json,md,yml,yaml}\" \".github/**/*.{yml,yaml}\"",
+    "format": "prettier --write \"frontend/**/*.{ts,tsx,js,jsx,json,md,css,mjs,mts}\" \"backend/**/*.{ts,js,json,md,css}\" \"*.{json,md,yml,yaml}\" \".github/**/*.{yml,yaml}\"",
+    "validate": "npm run lint:frontend && npm run typecheck:frontend && npm run build:frontend && npm run lint:backend && npm run build:backend && npm run test:backend && cargo fmt --all --check && cargo test --workspace",
+    "lint-staged": "lint-staged"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
+    "prettier": "^3.5.3"
+  },
+  "lint-staged": {
+    "frontend/**/*.{ts,tsx,js,jsx}": [
+      "npm --prefix frontend run typecheck"
+    ],
+    "backend/**/*.{ts,js}": [
+      "npm --prefix backend run typecheck"
+    ],
+    "contracts/**/*.rs": [
+      "cargo fmt --all --check"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ],
+    "frontend/**/*.{json,md,css}": [
+      "prettier --write"
+    ],
+    "backend/**/*.{json,md,css}": [
+      "prettier --write"
+    ]
+  }
+}

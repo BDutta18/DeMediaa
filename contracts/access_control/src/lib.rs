@@ -71,9 +71,7 @@ impl AccessControl {
             return Err(Error::RoleAlreadyAssigned);
         }
 
-        env.storage()
-            .instance()
-            .set(&DataKey::Role(address), &role);
+        env.storage().instance().set(&DataKey::Role(address), &role);
         Ok(())
     }
 

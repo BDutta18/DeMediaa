@@ -5,7 +5,7 @@ use soroban_sdk::{
 };
 
 #[contracterror]
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub enum Error {
     InvalidInput = 1,
     NotFound = 2,
@@ -82,20 +82,10 @@ impl PaymentEscrow {
         royalty_contract: Address,
         token_id: u128,
     ) -> Result<(u64, i128), Error> {
-        let payment_id = Self::create_escrow(
-            env.clone(),
-            sender,
-            recipient,
-            amount,
-            asset,
-            0,
-        )?;
+        let payment_id = Self::create_escrow(env.clone(), sender, recipient, amount, asset, 0)?;
 
-        let royalty_args: soroban_sdk::Vec<Val> = vec![
-            &env,
-            token_id.into_val(&env),
-            amount.into_val(&env)
-        ];
+        let royalty_args: soroban_sdk::Vec<Val> =
+            vec![&env, token_id.into_val(&env), amount.into_val(&env)];
 
         let royalty_amount: i128 = env.invoke_contract(
             &royalty_contract,

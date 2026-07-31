@@ -1,8 +1,7 @@
 #![no_std]
 
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, vec, Address, Env, String,
-    Symbol, Val,
+    contract, contracterror, contractimpl, contracttype, vec, Address, Env, String, Symbol, Val,
 };
 
 #[contracterror]
@@ -142,10 +141,9 @@ impl LicenseMarketplace {
             amount_paid: amount,
         };
 
-        env.storage().instance().set(
-            &DataKey::License(listing_id, buyer.clone()),
-            &license,
-        );
+        env.storage()
+            .instance()
+            .set(&DataKey::License(listing_id, buyer.clone()), &license);
 
         let total_revenue: i128 = env
             .storage()
