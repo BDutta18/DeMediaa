@@ -10,6 +10,7 @@ import txRoutes from "./routes/tx.Routes";
 import healthRoutes from "./routes/health.Routes";
 import copyrightRoutes from "./routes/copyright.Routes";
 import licenseRoutes from "./routes/license.Routes";
+import marketplaceRoutes from "./routes/marketplace.Routes";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use("/api/tx", txRoutes);
 app.use("/api/health", healthRoutes);
 app.use("/api/copyright", copyrightRoutes);
 app.use("/api/licenses", licenseRoutes);
+app.use("/api/marketplace", marketplaceRoutes);
 
 
 
