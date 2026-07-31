@@ -5,6 +5,8 @@ export interface INFT extends Document {
   owner: string;
   name: string;
   description: string;
+  category?: string;
+  tags?: string[];
   price: number;
   forSale: boolean;
   imageURL: string;
@@ -14,6 +16,8 @@ export interface INFT extends Document {
   registryTxHash?: string;
   tokenId: string;
   txHash: string;
+  viewCount: number;
+  downloadCount: number;
 }
 
 const nftSchema = new Schema<INFT>(
@@ -27,6 +31,8 @@ const nftSchema = new Schema<INFT>(
     },
     name: { type: String, required: true },
     description: { type: String, required: true },
+    category: { type: String, trim: true, default: "General" },
+    tags: [{ type: String, trim: true }],
     price: { type: Number, default: 0 },
     forSale: { type: Boolean, default: false },
     imageURL: { type: String, required: true },
@@ -36,6 +42,8 @@ const nftSchema = new Schema<INFT>(
     registryTxHash: { type: String },
     tokenId: { type: String, required: true },
     txHash: { type: String, required: true },
+    viewCount: { type: Number, default: 0 },
+    downloadCount: { type: Number, default: 0 },
     
   },
   { timestamps: true }

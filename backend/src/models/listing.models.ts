@@ -7,6 +7,8 @@ export interface IListing extends Document {
   contentHash: string;
   name: string;
   description: string;
+  category?: string;
+  tags?: string[];
   imageURL: string;
   licenseTypes: {
     personal: number;
@@ -17,6 +19,11 @@ export interface IListing extends Document {
   active: boolean;
   totalLicensesSold: number;
   totalRevenue: number;
+  viewCount: number;
+  downloadCount: number;
+  averageRating: number;
+  ratingCount: number;
+  popularityScore: number;
   registryTxHash?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -30,6 +37,8 @@ const listingSchema = new Schema<IListing>(
     contentHash: { type: String, required: true, index: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
+    category: { type: String, trim: true, default: "General", index: true },
+    tags: [{ type: String, trim: true }],
     imageURL: { type: String, required: true },
     licenseTypes: {
       personal: { type: Number, required: true, min: 0 },
@@ -40,6 +49,11 @@ const listingSchema = new Schema<IListing>(
     active: { type: Boolean, default: true },
     totalLicensesSold: { type: Number, default: 0 },
     totalRevenue: { type: Number, default: 0 },
+    viewCount: { type: Number, default: 0 },
+    downloadCount: { type: Number, default: 0 },
+    averageRating: { type: Number, default: 0 },
+    ratingCount: { type: Number, default: 0 },
+    popularityScore: { type: Number, default: 0, index: true },
     registryTxHash: { type: String },
   },
   { timestamps: true }
