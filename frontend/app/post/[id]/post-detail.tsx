@@ -6,17 +6,24 @@ import { useRouter } from "next/navigation"
 import {
   ArrowLeft,
   BadgeCheck,
+  Bookmark,
+  BookmarkCheck,
   Check,
+  Download,
   ExternalLink,
-  Heart,
+  MessageSquare,
   Shield,
   Share2,
+  Star,
+  UserPlus,
   FileKey2,
 } from "lucide-react"
 import { mapWalletError } from "@/lib/errors"
 import { cacheGet, cacheSet } from "@/lib/cache"
 import { resolveMediaUrl } from "@/lib/media"
 import { getNetworkConfig, useNetworkStore } from "@/lib/network-store"
+import { marketplaceApi, type ReviewItem } from "@/lib/marketplace"
+import { useMarketplaceStore } from "@/lib/marketplace-store"
 import { CopyrightBadge } from "@/components/copyright-badge"
 
 interface NFT {
@@ -76,12 +83,26 @@ export default function PostDetail({ postId }: { postId: string }) {
   const [copied, setCopied] = useState(false)
   const [purchaseStatus, setPurchaseStatus] = useState<"idle" | "pending" | "success" | "fail">("idle")
   const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null)
+  const [downloadStatus, setDownloadStatus] = useState<"idle" | "pending" | "success" | "fail">("idle")
+  const [downloadMessage, setDownloadMessage] = useState<string | null>(null)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [selectedLicense, setSelectedLicense] = useState<string>("personal")
-  const [showLicenseModal, setShowLicenseModal] = useState(false)
+  const [reviews, setReviews] = useState<ReviewItem[]>([])
+  const [reviewsLoading, setReviewsLoading] = useState(true)
+  const [reviewRating, setReviewRating] = useState(5)
+  const [reviewTitle, setReviewTitle] = useState("")
+  const [reviewBody, setReviewBody] = useState("")
+  const [reviewSubmitting, setReviewSubmitting] = useState(false)
+  const [engagementMessage, setEngagementMessage] = useState<string | null>(null)
   const router = useRouter()
   const network = useNetworkStore((state) => state.network)
   const networkConfig = getNetworkConfig(network)
+  const wishlistTokenIds = useMarketplaceStore((state) => state.wishlistTokenIds)
+  const followedCreators = useMarketplaceStore((state) => state.followedCreators)
+  const toggleWishlistToken = useMarketplaceStore((state) => state.toggleWishlistToken)
+  const toggleFollowCreator = useMarketplaceStore((state) => state.toggleFollowCreator)
+  const syncWishlist = useMarketplaceStore((state) => state.syncWishlist)
+  const syncFollows = useMarketplaceStore((state) => state.syncFollows)
 
   useEffect(() => {
     const fetchNFT = async () => {
@@ -99,7 +120,8 @@ export default function PostDetail({ postId }: { postId: string }) {
           const found = data.data.find((item: NFT) => item._id === postId)
 
           if (found) {
-            const profileResponse = await fetch(`/api/user/profile/${found.owner}`)
+            const creatorAddress = found.author || found.owner
+            const profileResponse = await fetch(`/api/user/profile/${creatorAddress}`)
             const profileData = await profileResponse.json()
 
             const enriched = {
@@ -107,7 +129,7 @@ export default function PostDetail({ postId }: { postId: string }) {
               artistName:
                 profileData.success && profileData.user?.name
                   ? profileData.user.name
-                  : `${found.owner.slice(0, 6)}...${found.owner.slice(-4)}`,
+                  : `${creatorAddress.slice(0, 6)}...${creatorAddress.slice(-4)}`,
             }
 
             setNft(enriched)
@@ -123,6 +145,38 @@ export default function PostDetail({ postId }: { postId: string }) {
 
     fetchNFT()
   }, [postId])
+
+  useEffect(() => {
+    const loadEngagement = async () => {
+      try {
+        const reviewResponse = await marketplaceApi.fetchReviews(postId)
+        setReviews(reviewResponse.data)
+
+        const token = localStorage.getItem("demedia_token")
+        if (token && nft?.tokenId) {
+          const [wishlistResponse, followResponse] = await Promise.all([
+            marketplaceApi.fetchWishlist(token),
+            marketplaceApi.fetchFollows(token),
+          ])
+
+          syncWishlist(wishlistResponse.data.map((item) => item.tokenId))
+          syncFollows(followResponse.data.following.map((item) => item.creatorAddress))
+        }
+
+        if (nft?.tokenId) {
+          await marketplaceApi.logView(nft.tokenId, localStorage.getItem("demedia_address") || undefined)
+        }
+      } catch (error) {
+        console.error("Failed to load engagement state:", error)
+      } finally {
+        setReviewsLoading(false)
+      }
+    }
+
+    if (nft) {
+      loadEngagement()
+    }
+  }, [nft, postId, syncFollows, syncWishlist])
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
@@ -147,6 +201,146 @@ export default function PostDetail({ postId }: { postId: string }) {
     }
   }
 
+  const toggleWishlist = async () => {
+    if (!nft) return
+
+    const token = localStorage.getItem("demedia_token")
+    if (!token) {
+      setEngagementMessage("Sign in to save this content to your wishlist.")
+      return
+    }
+
+    try {
+      if (isWishlisted) {
+        await marketplaceApi.removeWishlist(nft.tokenId, token)
+        toggleWishlistToken(nft.tokenId)
+        setEngagementMessage("Removed from your wishlist.")
+      } else {
+        await marketplaceApi.saveWishlist(
+          {
+            nftId: nft._id,
+            tokenId: nft.tokenId,
+            creator: creatorAddress || nft.owner,
+            name: nft.name,
+            imageURL: nft.imageURL,
+            priceSnapshot: nft.price,
+          },
+          token,
+        )
+        toggleWishlistToken(nft.tokenId)
+        setEngagementMessage("Saved to your wishlist.")
+      }
+    } catch (error) {
+      setEngagementMessage(error instanceof Error ? error.message : "Wishlist update failed.")
+    }
+  }
+
+  const toggleFollow = async () => {
+    if (!nft || !creatorAddress) return
+
+    const token = localStorage.getItem("demedia_token")
+    if (!token) {
+      setEngagementMessage("Sign in to follow creators.")
+      return
+    }
+
+    try {
+      if (isFollowingCreator) {
+        await marketplaceApi.unfollowCreator(creatorAddress, token)
+        toggleFollowCreator(creatorAddress.toLowerCase())
+        setEngagementMessage("Unfollowed creator.")
+      } else {
+        await marketplaceApi.followCreator(
+          {
+            creatorAddress,
+            creatorName: nft.artistName,
+          },
+          token,
+        )
+        toggleFollowCreator(creatorAddress.toLowerCase())
+        setEngagementMessage("Now following this creator.")
+      }
+    } catch (error) {
+      setEngagementMessage(error instanceof Error ? error.message : "Follow action failed.")
+    }
+  }
+
+  const submitReview = async () => {
+    if (!nft || !creatorAddress) return
+
+    const token = localStorage.getItem("demedia_token")
+    if (!token) {
+      setEngagementMessage("Sign in to leave a review.")
+      return
+    }
+
+    if (!reviewTitle.trim() || !reviewBody.trim()) {
+      setEngagementMessage("Add a title and short review before submitting.")
+      return
+    }
+
+    setReviewSubmitting(true)
+    try {
+      const response = await marketplaceApi.saveReview(
+        {
+          nftId: nft._id,
+          tokenId: nft.tokenId,
+          creator: creatorAddress,
+          rating: reviewRating,
+          title: reviewTitle.trim(),
+          body: reviewBody.trim(),
+        },
+        token,
+      )
+
+      setReviews((current) => {
+        const next = current.filter((item) => item.reviewerAddress !== response.data.reviewerAddress)
+        return [response.data, ...next]
+      })
+      setReviewTitle("")
+      setReviewBody("")
+      setReviewRating(5)
+      setEngagementMessage("Your review is now live.")
+    } catch (error) {
+      setEngagementMessage(error instanceof Error ? error.message : "Review submission failed.")
+    } finally {
+      setReviewSubmitting(false)
+    }
+  }
+
+  const recordDownload = async () => {
+    if (!nft || !creatorAddress) return
+
+    const token = localStorage.getItem("demedia_token")
+    if (!token) {
+      setDownloadStatus("fail")
+      setDownloadMessage("Sign in to save a download record.")
+      return
+    }
+
+    setDownloadStatus("pending")
+    setDownloadMessage("Recording your download and opening the asset...")
+
+    try {
+      await marketplaceApi.logDownload(
+        nft.tokenId,
+        {
+          licenseType: selectedLicense as "personal" | "commercial" | "exclusive",
+          fileName: nft.name,
+          downloadUrl: resolveMediaUrl(nft.imageURL),
+        },
+        token,
+      )
+
+      setDownloadStatus("success")
+      setDownloadMessage("Download recorded successfully.")
+      window.open(resolveMediaUrl(nft.imageURL), "_blank", "noopener,noreferrer")
+    } catch (error) {
+      setDownloadStatus("fail")
+      setDownloadMessage(error instanceof Error ? error.message : "Download record failed.")
+    }
+  }
+
   const priceInXLM = useMemo(() => {
     if (!nft) return "0"
     const base = nft.price > 0 ? nft.price : 0
@@ -158,6 +352,13 @@ export default function PostDetail({ postId }: { postId: string }) {
   const licenseInfo = useMemo(() => {
     return LICENSE_TYPES.find((l) => l.id === selectedLicense) ?? LICENSE_TYPES[0]
   }, [selectedLicense])
+
+  const creatorAddress = useMemo(() => {
+    return nft?.author || nft?.owner || ""
+  }, [nft])
+
+  const isWishlisted = Boolean(nft && wishlistTokenIds.includes(nft.tokenId))
+  const isFollowingCreator = Boolean(creatorAddress && followedCreators.includes(creatorAddress.toLowerCase()))
 
   const buyNow = async () => {
     if (!nft) return
@@ -295,25 +496,38 @@ export default function PostDetail({ postId }: { postId: string }) {
             />
           </div>
 
-          <div className="mt-4 grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
+          <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
             <button
               onClick={buyNow}
               disabled={purchaseStatus === "pending" || !nft.forSale || nft.price <= 0}
-              className="inline-flex w-full items-center justify-center rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-70 sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-70"
             >
               {purchaseStatus === "pending" ? "Buying..." : `License ${licenseInfo.name.split(" ")[0]} - ${priceInXLM} XLM`}
             </button>
 
             <button
               onClick={sharePost}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/80 bg-card px-4 py-3 text-sm font-semibold sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/80 bg-card px-4 py-3 text-sm font-semibold"
             >
               {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
               {copied ? "Copied" : "Share"}
             </button>
 
-            <button className="inline-flex w-full items-center justify-center rounded-xl border border-border/80 bg-card px-4 py-3 text-sm font-semibold sm:w-auto">
-              <Heart className="h-4 w-4" />
+            <button
+              onClick={toggleWishlist}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/80 bg-card px-4 py-3 text-sm font-semibold"
+            >
+              {isWishlisted ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
+              {isWishlisted ? "Saved" : "Save"}
+            </button>
+
+            <button
+              onClick={recordDownload}
+              disabled={downloadStatus === "pending"}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/80 bg-card px-4 py-3 text-sm font-semibold disabled:opacity-70"
+            >
+              <Download className="h-4 w-4" />
+              {downloadStatus === "pending" ? "Saving..." : "Download"}
             </button>
           </div>
 
@@ -417,13 +631,29 @@ export default function PostDetail({ postId }: { postId: string }) {
                   {nft.artistName}
                   <BadgeCheck className="h-4 w-4 text-cyan-300" />
                 </p>
-                <p className="mt-1 break-all font-mono text-xs text-muted-foreground">{`${nft.owner.slice(0, 6)}...${nft.owner.slice(-4)}`}</p>
+                <p className="mt-1 break-all font-mono text-xs text-muted-foreground">{`${creatorAddress.slice(0, 6)}...${creatorAddress.slice(-4)}`}</p>
               </div>
               <button
-                onClick={() => router.push(`/profile/${nft.owner}`)}
+                onClick={() => router.push(`/profile/${creatorAddress}`)}
                 className="inline-flex w-full justify-center rounded-xl border border-border/80 bg-card px-4 py-2 text-sm font-semibold hover:bg-secondary sm:w-auto"
               >
                 View profile
+              </button>
+            </div>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <button
+                onClick={toggleFollow}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/80 bg-card px-4 py-2 text-sm font-semibold hover:bg-secondary sm:w-auto"
+              >
+                <UserPlus className="h-4 w-4" />
+                {isFollowingCreator ? "Following" : "Follow creator"}
+              </button>
+              <button
+                onClick={() => router.push(`/profile/${creatorAddress}`)}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/80 bg-card px-4 py-2 text-sm font-semibold hover:bg-secondary sm:w-auto"
+              >
+                <ArrowLeft className="h-4 w-4 rotate-180" />
+                Open creator profile
               </button>
             </div>
           </div>
@@ -491,6 +721,125 @@ export default function PostDetail({ postId }: { postId: string }) {
           </div>
 
           <CopyrightBadge tokenId={nft.tokenId} />
+
+          <div className="panel p-4 sm:p-5">
+            <div className="flex items-center gap-2">
+              <MessageSquare className="h-4 w-4 text-cyan-300" />
+              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Ratings & reviews</p>
+            </div>
+
+            <div className="mt-4 rounded-2xl border border-border/70 bg-card p-4">
+              <p className="text-sm font-semibold">Rate this content</p>
+              <div className="mt-3 flex items-center gap-2">
+                {Array.from({ length: 5 }).map((_, index) => {
+                  const value = index + 1
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setReviewRating(value)}
+                      className={`rounded-full p-1.5 transition ${reviewRating >= value ? "text-amber-300" : "text-zinc-500"}`}
+                      aria-label={`Rate ${value} stars`}
+                    >
+                      <Star className="h-5 w-5 fill-current" />
+                    </button>
+                  )
+                })}
+                <span className="ml-2 text-sm text-muted-foreground">{reviewRating}/5</span>
+              </div>
+
+              <div className="mt-4 grid gap-3">
+                <input
+                  value={reviewTitle}
+                  onChange={(event) => setReviewTitle(event.target.value)}
+                  placeholder="Review title"
+                  className="w-full rounded-xl border border-border/80 bg-background px-3 py-2 text-sm outline-none"
+                />
+                <textarea
+                  value={reviewBody}
+                  onChange={(event) => setReviewBody(event.target.value)}
+                  placeholder="Share what stood out about this piece..."
+                  rows={4}
+                  className="w-full rounded-xl border border-border/80 bg-background px-3 py-2 text-sm outline-none"
+                />
+                <button
+                  onClick={submitReview}
+                  disabled={reviewSubmitting}
+                  className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-70"
+                >
+                  {reviewSubmitting ? "Publishing..." : "Publish review"}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-3">
+              {reviewsLoading ? (
+                <div className="rounded-2xl border border-dashed border-border/70 p-4 text-sm text-muted-foreground">
+                  Loading reviews...
+                </div>
+              ) : reviews.length ? (
+                reviews.map((review) => (
+                  <article key={review._id} className="rounded-2xl border border-border/70 bg-card p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold">{review.title}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {review.reviewerAddress.slice(0, 6)}...{review.reviewerAddress.slice(-4)} ·{" "}
+                          {new Date(review.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1 text-amber-300">
+                        {Array.from({ length: review.rating }).map((_, index) => (
+                          <Star key={index} className="h-3.5 w-3.5 fill-current" />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{review.body}</p>
+                    <div className="mt-3 flex items-center justify-between gap-3">
+                      <p className="text-xs text-muted-foreground">{review.helpfulCount} found this helpful</p>
+                      <button
+                        onClick={async () => {
+                          try {
+                            const result = await marketplaceApi.markReviewHelpful(review._id)
+                            setReviews((current) =>
+                              current.map((item) => (item._id === review._id ? result.data : item)),
+                            )
+                          } catch (error) {
+                            setEngagementMessage(error instanceof Error ? error.message : "Could not mark helpful.")
+                          }
+                        }}
+                        className="rounded-full border border-border/70 px-3 py-1 text-xs font-semibold hover:bg-secondary"
+                      >
+                        Helpful
+                      </button>
+                    </div>
+                  </article>
+                ))
+              ) : (
+                <div className="rounded-2xl border border-dashed border-border/70 p-4 text-sm text-muted-foreground">
+                  No reviews yet. Be the first to share what you think.
+                </div>
+              )}
+            </div>
+          </div>
+
+          {engagementMessage ? (
+            <p className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 text-sm text-cyan-100">{engagementMessage}</p>
+          ) : null}
+
+          {downloadMessage ? (
+            <p
+              className={`rounded-2xl border p-4 text-sm ${
+                downloadStatus === "success"
+                  ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+                  : downloadStatus === "fail"
+                    ? "border-red-500/30 bg-red-500/10 text-red-200"
+                    : "border-amber-500/30 bg-amber-500/10 text-amber-200"
+              }`}
+            >
+              {downloadMessage}
+            </p>
+          ) : null}
         </section>
       </div>
 
@@ -531,4 +880,3 @@ export default function PostDetail({ postId }: { postId: string }) {
     </main>
   )
 }
-
