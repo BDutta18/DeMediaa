@@ -2,10 +2,11 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight, GalleryHorizontalEnd, LayoutDashboard, Library, Search, WalletCards } from "lucide-react"
+import { ArrowUpRight, Bell, GalleryHorizontalEnd, LayoutDashboard, Library, Search, WalletCards } from "lucide-react"
 
 const footerLinks = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Notifications", href: "/notifications", icon: Bell },
   { label: "Gallery", href: "/gallery", icon: GalleryHorizontalEnd },
   { label: "Library", href: "/content", icon: Library },
   { label: "Search", href: "/search", icon: Search },

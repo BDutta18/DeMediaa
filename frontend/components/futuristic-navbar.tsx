@@ -13,6 +13,7 @@ import {
   ImageIcon,
   WalletCards,
   FileKey2,
+  Bell,
 } from "lucide-react"
 import { Wallet } from "lucide-react"
 import { useState, useEffect } from "react"
@@ -21,12 +22,14 @@ import { useAuth } from "@/lib/auth-context"
 import { usePathname } from "next/navigation"
 import { NetworkToggle } from "@/components/network-toggle"
 import { BrandLockup } from "@/components/brand-lockup"
+import { useMarketplaceStore } from "@/lib/marketplace-store"
 
 export default function FuturisticNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const { isAuthenticated, address, logout } = useAuth()
   const pathname = usePathname()
+  const unreadNotifications = useMarketplaceStore((state) => state.unreadNotifications)
   const isActivePath = (href: string) =>
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`)
 
@@ -47,6 +50,7 @@ export default function FuturisticNavbar() {
     { icon: ImageIcon, label: "Gallery", href: "/gallery" },
     { icon: FileKey2, label: "Marketplace", href: "/marketplace" },
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    { icon: Bell, label: "Notifications", href: "/notifications" },
     { icon: Library, label: "Content", href: "/content" },
     { icon: Upload, label: "Upload", href: "/upload" },
     { icon: WalletIcon, label: "Wallet", href: "/wallet" },
@@ -78,6 +82,11 @@ export default function FuturisticNavbar() {
               >
                 <item.icon className="h-4 w-4" />
                 <span>{item.label}</span>
+                {item.href === "/notifications" && unreadNotifications > 0 ? (
+                  <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-cyan-300 px-1.5 text-[10px] font-bold text-black">
+                    {unreadNotifications}
+                  </span>
+                ) : null}
               </Link>
             ))}
           </div>
@@ -143,6 +152,11 @@ export default function FuturisticNavbar() {
               >
                 <item.icon className="h-4 w-4" />
                 {item.label}
+                {item.href === "/notifications" && unreadNotifications > 0 ? (
+                  <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-cyan-300 px-1.5 text-[10px] font-bold text-black">
+                    {unreadNotifications}
+                  </span>
+                ) : null}
               </Link>
             ))}
 
