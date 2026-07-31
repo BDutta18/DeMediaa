@@ -519,7 +519,8 @@ export const getMarketplaceHistory = asyncHandler(async (req: Request, res: Resp
 
 export const logContentView = asyncHandler(async (req: Request, res: Response) => {
   const { tokenId } = req.params;
-  const viewerAddress = getRequestAddress(req) || "anonymous";
+  const bodyAddress = normalizeAddress((req.body as { address?: string; viewerAddress?: string })?.address ?? (req.body as { address?: string; viewerAddress?: string })?.viewerAddress);
+  const viewerAddress = bodyAddress || getRequestAddress(req) || "anonymous";
   const nft = await Nft.findOne({ tokenId: String(tokenId) });
   const listing = await Listing.findOne({ tokenId: String(tokenId) });
 
