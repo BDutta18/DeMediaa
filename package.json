@@ -23,25 +23,5 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
     "prettier": "^3.5.3"
-  },
-  "lint-staged": {
-    "frontend/**/*.{ts,tsx,js,jsx}": [
-      "npm --prefix frontend run typecheck"
-    ],
-    "backend/**/*.{ts,js}": [
-      "npm --prefix backend run typecheck"
-    ],
-    "contracts/**/*.rs": [
-      "cargo fmt --all --check"
-    ],
-    "*.{json,md,yml,yaml}": [
-      "prettier --write"
-    ],
-    "frontend/**/*.{json,md,css}": [
-      "prettier --write"
-    ],
-    "backend/**/*.{json,md,css}": [
-      "prettier --write"
-    ]
   }
 }

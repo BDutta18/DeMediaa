@@ -22,3 +22,6 @@ overflow-checks = true
 inherits = "release"
 debug = true
 strip = false
+
+[patch.crates-io]
+ethnum = { path = "contracts/ethnum-patch" }
