@@ -11,6 +11,7 @@ import healthRoutes from "./routes/health.Routes";
 import copyrightRoutes from "./routes/copyright.Routes";
 import licenseRoutes from "./routes/license.Routes";
 import marketplaceRoutes from "./routes/marketplace.Routes";
+import { errorHandler } from "./middlewares/errorHandler";
 
 dotenv.config();
 
@@ -36,18 +37,12 @@ app.use("/api/marketplace", marketplaceRoutes);
 
 
 // ✅ Default route
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.send("🚀 Server is running successfully!");
 });
 
-// ✅ Global Error Handler
-app.use((err: any, req: any, res: any, next: any) => {
-  console.error("❌ Backend Error:", err);
-  res.status(err.status || 500).json({
-    success: false,
-    message: err.message || "Internal Server Error",
-    error: process.env.NODE_ENV === "development" ? err : {},
-  });
-});
+// ✅ Typed global error handler (must be last)
+app.use(errorHandler);
 
 export default app;
+
