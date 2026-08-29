@@ -1,9 +1,14 @@
-name: CI
+﻿name: CI
 
 on:
   push:
     branches: ["main", "master"]
   pull_request:
+
+# Cancel in-progress runs for the same branch to save CI minutes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   format:
@@ -81,6 +86,14 @@ jobs:
 
       - name: Test
         run: npm test
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: backend/dist/__tests__/
+          if-no-files-found: ignore
 
   contracts:
     runs-on: ubuntu-latest
