@@ -1,0 +1,8 @@
+﻿node_modules
+.next
+dist
+target
+public
+*.lock
+*.tsbuildinfo
+Cargo.lock
