@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, useMemo, type ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, useMemo, useCallback, type ReactNode } from "react"
 import { useRouter, usePathname } from "next/navigation"
 
 interface AuthContextType {
@@ -54,22 +54,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [isAuthenticated, pathname, router, isLoading])
 
-  const login = (userAddress: string, userToken: string) => {
+  // Stable callback references fix useMemo exhaustive-deps warning
+  const login = useCallback((userAddress: string, userToken: string) => {
     localStorage.setItem("demedia_token", userToken)
     localStorage.setItem("demedia_address", userAddress.toUpperCase())
     setToken(userToken)
     setAddress(userAddress.toUpperCase())
     setIsAuthenticated(true)
-  }
+  }, [])
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("demedia_token")
     localStorage.removeItem("demedia_address")
     setToken(null)
     setAddress(null)
     setIsAuthenticated(false)
     router.push("/")
-  }
+  }, [router])
 
   const value = useMemo(
     () => ({ isAuthenticated, address, token, login, logout, isLoading }),
