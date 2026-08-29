@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { walletProtect } from "../middlewares/walletAuthMiddleware";
+import { requireFields, validateRating } from "../middlewares/validateBody";
 import {
   followCreator,
   getCreatorAnalytics,
@@ -32,15 +33,15 @@ router.get("/suggestions", getSearchSuggestions);
 router.get("/analytics/creator", walletProtect, getCreatorAnalytics);
 
 router.get("/wishlist", walletProtect, getWishlist);
-router.post("/wishlist", walletProtect, saveWishlistItem);
+router.post("/wishlist", walletProtect, requireFields(["nftId", "tokenId", "creator", "name", "imageURL"]), saveWishlistItem);
 router.delete("/wishlist/:tokenId", walletProtect, removeWishlistItem);
 
 router.get("/follows", walletProtect, getFollows);
-router.post("/follows", walletProtect, followCreator);
+router.post("/follows", walletProtect, requireFields(["creatorAddress"]), followCreator);
 router.delete("/follows/:creatorAddress", walletProtect, unfollowCreator);
 
 router.get("/reviews/:tokenId", getReviews);
-router.post("/reviews", walletProtect, saveReview);
+router.post("/reviews", walletProtect, requireFields(["nftId", "tokenId", "creator", "rating", "title", "body"]), validateRating(), saveReview);
 router.patch("/reviews/:reviewId/helpful", walletProtect, markHelpfulReview);
 
 router.get("/notifications", walletProtect, getNotifications);
