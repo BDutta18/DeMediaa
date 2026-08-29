@@ -1,6 +1,7 @@
+import { NextRequest } from "next/server"
 import { getBackendApiBaseUrl } from "@/lib/backend-url"
 
-const proxyRequest = async (request: Request, path: string[] = []) => {
+const proxyRequest = async (request: NextRequest, path: string[] = []) => {
   const backendUrl = getBackendApiBaseUrl()
   const url = new URL(request.url)
   const backendPath = path.length ? `/${path.join("/")}` : ""
@@ -34,18 +35,23 @@ const proxyRequest = async (request: Request, path: string[] = []) => {
   })
 }
 
-export async function GET(request: Request, context: { params: { path?: string[] } }) {
-  return proxyRequest(request, context.params.path)
+// Next.js 16: params is a Promise in route handlers
+export async function GET(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
+  const { path } = await context.params
+  return proxyRequest(request, path)
 }
 
-export async function POST(request: Request, context: { params: { path?: string[] } }) {
-  return proxyRequest(request, context.params.path)
+export async function POST(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
+  const { path } = await context.params
+  return proxyRequest(request, path)
 }
 
-export async function PATCH(request: Request, context: { params: { path?: string[] } }) {
-  return proxyRequest(request, context.params.path)
+export async function PATCH(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
+  const { path } = await context.params
+  return proxyRequest(request, path)
 }
 
-export async function DELETE(request: Request, context: { params: { path?: string[] } }) {
-  return proxyRequest(request, context.params.path)
+export async function DELETE(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
+  const { path } = await context.params
+  return proxyRequest(request, path)
 }

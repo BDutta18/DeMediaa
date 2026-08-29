@@ -18,7 +18,8 @@ jobs:
           RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
-            echo "RENDER_DEPLOY_HOOK_URL is not configured"
-            exit 1
+            echo "::warning::RENDER_DEPLOY_HOOK_URL is not configured — skipping backend deploy trigger."
+            exit 0
           fi
           curl -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
+          echo "Backend deploy triggered successfully."
