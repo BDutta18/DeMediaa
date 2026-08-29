@@ -1,22 +1,22 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose"
 
 export interface ILicense extends Document {
-  listingId: string;
-  nftId: string;
-  tokenId: string;
-  creator: string;
-  buyer: string;
-  contentHash: string;
-  licenseType: "personal" | "commercial" | "exclusive";
-  price: number;
-  royaltyBps: number;
-  royaltyAmount: number;
-  currency: string;
-  txHash: string;
-  status: "active" | "revoked" | "expired";
-  expiresAt?: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  listingId: string
+  nftId: string
+  tokenId: string
+  creator: string
+  buyer: string
+  contentHash: string
+  licenseType: "personal" | "commercial" | "exclusive"
+  price: number
+  royaltyBps: number
+  royaltyAmount: number
+  currency: string
+  txHash: string
+  status: "active" | "revoked" | "expired"
+  expiresAt?: Date
+  createdAt: Date
+  updatedAt: Date
 }
 
 const licenseSchema = new Schema<ILicense>(
@@ -44,11 +44,11 @@ const licenseSchema = new Schema<ILicense>(
     },
     expiresAt: { type: Date },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-licenseSchema.index({ buyer: 1, status: 1 });
-licenseSchema.index({ creator: 1, status: 1 });
-licenseSchema.index({ nftId: 1, licenseType: 1 });
+licenseSchema.index({ buyer: 1, status: 1 })
+licenseSchema.index({ creator: 1, status: 1 })
+licenseSchema.index({ nftId: 1, licenseType: 1 })
 
-export default mongoose.model<ILicense>("License", licenseSchema);
+export default mongoose.model<ILicense>("License", licenseSchema)

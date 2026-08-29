@@ -153,7 +153,9 @@ export default function MyNFTsPage() {
 
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-xs text-blue-400 font-mono">Token #{nft.tokenId}</span>
-                      <span className="text-xs text-gray-500">{new Date(nft.createdAt).toLocaleDateString()}</span>
+                      <span className="text-xs text-gray-500">
+                        {new Date(nft.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
 
                     <div className="flex gap-2">
@@ -184,5 +186,3 @@ export default function MyNFTsPage() {
     </>
   )
 }
-
-

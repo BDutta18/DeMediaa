@@ -40,42 +40,39 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 
 ### Types
 
-| Type | When to use |
-| :--- | :--- |
-| eat | A new feature |
-| ix | A bug fix |
-| docs | Documentation only changes |
-| style | Formatting, no logic change |
-| efactor | Code restructuring, no feature/fix |
-| 	est | Adding or updating tests |
-| chore | Build tooling, CI, dependency updates |
-| perf | Performance improvement |
+| Type    | When to use                           |
+| :------ | :------------------------------------ |
+| eat     | A new feature                         |
+| ix      | A bug fix                             |
+| docs    | Documentation only changes            |
+| style   | Formatting, no logic change           |
+|         |
+| efactor | Code restructuring, no feature/fix    |
+| est     | Adding or updating tests              |
+| chore   | Build tooling, CI, dependency updates |
+| perf    | Performance improvement               |
 
 ### Examples
 
-`
-feat(frontend): add copy-to-clipboard for wallet address
+`feat(frontend): add copy-to-clipboard for wallet address
 fix(backend): return 400 on missing tokenId in marketplace routes
 docs: update README with deployment guide
-chore: bump @stellar/stellar-sdk to v15
-`
+chore: bump @stellar/stellar-sdk to v15`
 
 ---
 
 ## Branch Naming
 
-`
-feat/<short-description>       # new feature
+`feat/<short-description>       # new feature
 fix/<short-description>        # bug fix
 docs/<short-description>       # documentation
-chore/<short-description>      # tooling / CI
-`
+chore/<short-description>      # tooling / CI`
 
 ---
 
 ## Pull Request Guidelines
 
-- Keep PRs **small and focused** — one concern per PR.
+- Keep PRs **small and focused** ï¿½ one concern per PR.
 - Fill in the PR template completely.
 - Link to the related issue if one exists.
 - Ensure **CI passes** (lint, type-check, build, tests) before requesting review.
@@ -88,11 +85,11 @@ chore/<short-description>      # tooling / CI
 - **TypeScript** for all frontend and backend code.
 - Frontend follows **Next.js App Router** conventions.
 - Backend follows **Express** modular structure (routes ? controllers ? services ? models).
-- Run 
-pm run lint and 
-pm run typecheck before pushing.
+- Run
+  pm run lint and
+  pm run typecheck before pushing.
 - Prettier formatting is enforced via CI (
-pm run format:check).
+  pm run format:check).
 
 ---
 

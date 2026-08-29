@@ -1,12 +1,8 @@
 export type WalletTxErrorCode =
-  | "WALLET_NOT_FOUND"
-  | "WALLET_REJECTED"
-  | "INSUFFICIENT_BALANCE"
-  | "NETWORK_MISMATCH"
-  | "UNKNOWN";
+  "WALLET_NOT_FOUND" | "WALLET_REJECTED" | "INSUFFICIENT_BALANCE" | "NETWORK_MISMATCH" | "UNKNOWN"
 
 const includesAny = (value: string, terms: string[]): boolean =>
-  terms.some((term) => value.includes(term));
+  terms.some((term) => value.includes(term))
 
 export const classifyWalletTxError = (error: unknown): WalletTxErrorCode => {
   const raw =
@@ -14,16 +10,16 @@ export const classifyWalletTxError = (error: unknown): WalletTxErrorCode => {
       ? error
       : error instanceof Error
         ? error.message
-        : JSON.stringify(error);
+        : JSON.stringify(error)
 
-  const message = raw.toLowerCase();
+  const message = raw.toLowerCase()
 
   if (includesAny(message, ["not found", "not installed", "wallet unavailable"])) {
-    return "WALLET_NOT_FOUND";
+    return "WALLET_NOT_FOUND"
   }
 
   if (includesAny(message, ["rejected", "declined", "denied", "cancelled", "canceled"])) {
-    return "WALLET_REJECTED";
+    return "WALLET_REJECTED"
   }
 
   if (
@@ -34,12 +30,12 @@ export const classifyWalletTxError = (error: unknown): WalletTxErrorCode => {
       "underfunded",
     ])
   ) {
-    return "INSUFFICIENT_BALANCE";
+    return "INSUFFICIENT_BALANCE"
   }
 
   if (includesAny(message, ["network", "passphrase", "wrong network"])) {
-    return "NETWORK_MISMATCH";
+    return "NETWORK_MISMATCH"
   }
 
-  return "UNKNOWN";
-};
+  return "UNKNOWN"
+}

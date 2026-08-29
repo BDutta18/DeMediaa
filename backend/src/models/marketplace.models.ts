@@ -1,89 +1,75 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose"
 
 export interface IWishlist extends Document {
-  userAddress: string;
-  nftId: string;
-  tokenId: string;
-  creator: string;
-  name: string;
-  imageURL: string;
-  priceSnapshot: number;
-  createdAt: Date;
-  updatedAt: Date;
+  userAddress: string
+  nftId: string
+  tokenId: string
+  creator: string
+  name: string
+  imageURL: string
+  priceSnapshot: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface IFollow extends Document {
-  followerAddress: string;
-  creatorAddress: string;
-  creatorName?: string;
-  creatorAvatar?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  followerAddress: string
+  creatorAddress: string
+  creatorName?: string
+  creatorAvatar?: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface IReview extends Document {
-  nftId: string;
-  tokenId: string;
-  creator: string;
-  reviewerAddress: string;
-  rating: number;
-  title: string;
-  body: string;
-  helpfulCount: number;
-  status: "published" | "flagged" | "hidden";
-  createdAt: Date;
-  updatedAt: Date;
+  nftId: string
+  tokenId: string
+  creator: string
+  reviewerAddress: string
+  rating: number
+  title: string
+  body: string
+  helpfulCount: number
+  status: "published" | "flagged" | "hidden"
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface INotification extends Document {
-  recipientAddress: string;
-  actorAddress?: string;
-  type:
-    | "sale"
-    | "purchase"
-    | "review"
-    | "follow"
-    | "wishlist"
-    | "download"
-    | "system";
-  title: string;
-  message: string;
-  href?: string;
-  read: boolean;
-  metadata?: Record<string, unknown>;
-  createdAt: Date;
-  updatedAt: Date;
+  recipientAddress: string
+  actorAddress?: string
+  type: "sale" | "purchase" | "review" | "follow" | "wishlist" | "download" | "system"
+  title: string
+  message: string
+  href?: string
+  read: boolean
+  metadata?: Record<string, unknown>
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface IActivity extends Document {
-  actorAddress: string;
-  type:
-    | "view"
-    | "wishlist"
-    | "follow"
-    | "review"
-    | "download"
-    | "purchase"
-    | "share";
-  nftId?: string;
-  tokenId?: string;
-  creatorAddress?: string;
-  metadata?: Record<string, unknown>;
-  createdAt: Date;
-  updatedAt: Date;
+  actorAddress: string
+  type: "view" | "wishlist" | "follow" | "review" | "download" | "purchase" | "share"
+  nftId?: string
+  tokenId?: string
+  creatorAddress?: string
+  metadata?: Record<string, unknown>
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface IDownloadRecord extends Document {
-  userAddress: string;
-  nftId: string;
-  tokenId: string;
-  creatorAddress: string;
-  licenseType?: "personal" | "commercial" | "exclusive";
-  source: "purchase" | "download";
-  fileName?: string;
-  downloadUrl?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  userAddress: string
+  nftId: string
+  tokenId: string
+  creatorAddress: string
+  licenseType?: "personal" | "commercial" | "exclusive"
+  source: "purchase" | "download"
+  fileName?: string
+  downloadUrl?: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 const wishlistSchema = new Schema<IWishlist>(
@@ -96,10 +82,10 @@ const wishlistSchema = new Schema<IWishlist>(
     imageURL: { type: String, required: true },
     priceSnapshot: { type: Number, default: 0 },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-wishlistSchema.index({ userAddress: 1, tokenId: 1 }, { unique: true });
+wishlistSchema.index({ userAddress: 1, tokenId: 1 }, { unique: true })
 
 const followSchema = new Schema<IFollow>(
   {
@@ -108,10 +94,10 @@ const followSchema = new Schema<IFollow>(
     creatorName: { type: String },
     creatorAvatar: { type: String },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-followSchema.index({ followerAddress: 1, creatorAddress: 1 }, { unique: true });
+followSchema.index({ followerAddress: 1, creatorAddress: 1 }, { unique: true })
 
 const reviewSchema = new Schema<IReview>(
   {
@@ -129,11 +115,11 @@ const reviewSchema = new Schema<IReview>(
       default: "published",
     },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-reviewSchema.index({ tokenId: 1, reviewerAddress: 1 }, { unique: true });
-reviewSchema.index({ creator: 1, rating: -1 });
+reviewSchema.index({ tokenId: 1, reviewerAddress: 1 }, { unique: true })
+reviewSchema.index({ creator: 1, rating: -1 })
 
 const notificationSchema = new Schema<INotification>(
   {
@@ -151,10 +137,10 @@ const notificationSchema = new Schema<INotification>(
     read: { type: Boolean, default: false, index: true },
     metadata: { type: Schema.Types.Mixed },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-notificationSchema.index({ recipientAddress: 1, read: 1, createdAt: -1 });
+notificationSchema.index({ recipientAddress: 1, read: 1, createdAt: -1 })
 
 const activitySchema = new Schema<IActivity>(
   {
@@ -170,10 +156,10 @@ const activitySchema = new Schema<IActivity>(
     creatorAddress: { type: String, lowercase: true, index: true },
     metadata: { type: Schema.Types.Mixed },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-activitySchema.index({ creatorAddress: 1, type: 1, createdAt: -1 });
+activitySchema.index({ creatorAddress: 1, type: 1, createdAt: -1 })
 
 const downloadRecordSchema = new Schema<IDownloadRecord>(
   {
@@ -193,27 +179,25 @@ const downloadRecordSchema = new Schema<IDownloadRecord>(
     fileName: { type: String },
     downloadUrl: { type: String },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-downloadRecordSchema.index({ userAddress: 1, createdAt: -1 });
-downloadRecordSchema.index({ creatorAddress: 1, createdAt: -1 });
+downloadRecordSchema.index({ userAddress: 1, createdAt: -1 })
+downloadRecordSchema.index({ creatorAddress: 1, createdAt: -1 })
 
 export const WishlistModel =
-  mongoose.models.Wishlist || mongoose.model<IWishlist>("Wishlist", wishlistSchema);
+  mongoose.models.Wishlist || mongoose.model<IWishlist>("Wishlist", wishlistSchema)
 
-export const FollowModel =
-  mongoose.models.Follow || mongoose.model<IFollow>("Follow", followSchema);
+export const FollowModel = mongoose.models.Follow || mongoose.model<IFollow>("Follow", followSchema)
 
-export const ReviewModel =
-  mongoose.models.Review || mongoose.model<IReview>("Review", reviewSchema);
+export const ReviewModel = mongoose.models.Review || mongoose.model<IReview>("Review", reviewSchema)
 
 export const NotificationModel =
-  mongoose.models.Notification || mongoose.model<INotification>("Notification", notificationSchema);
+  mongoose.models.Notification || mongoose.model<INotification>("Notification", notificationSchema)
 
 export const ActivityModel =
-  mongoose.models.Activity || mongoose.model<IActivity>("Activity", activitySchema);
+  mongoose.models.Activity || mongoose.model<IActivity>("Activity", activitySchema)
 
 export const DownloadRecordModel =
   mongoose.models.DownloadRecord ||
-  mongoose.model<IDownloadRecord>("DownloadRecord", downloadRecordSchema);
+  mongoose.model<IDownloadRecord>("DownloadRecord", downloadRecordSchema)

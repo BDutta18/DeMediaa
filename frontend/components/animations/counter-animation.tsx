@@ -35,4 +35,3 @@ export function CounterAnimation({ end, suffix = "" }: { end: number; suffix?: s
     </span>
   )
 }
-

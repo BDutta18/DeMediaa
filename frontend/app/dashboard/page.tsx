@@ -26,16 +26,15 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { useAuth } from "@/lib/auth-context"
-import { marketplaceApi, type CreatorAnalytics, type MarketplaceHistoryResponse, type NotificationItem } from "@/lib/marketplace"
+import {
+  marketplaceApi,
+  type CreatorAnalytics,
+  type MarketplaceHistoryResponse,
+  type NotificationItem,
+} from "@/lib/marketplace"
 import { useMarketplaceStore } from "@/lib/marketplace-store"
 import { formatDistanceToNow } from "date-fns"
-import {
-  CartesianGrid,
-  Line,
-  LineChart as RechartsLineChart,
-  XAxis,
-  YAxis,
-} from "recharts"
+import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } from "recharts"
 
 export default function DashboardPage() {
   const { address, isAuthenticated, isLoading } = useAuth()
@@ -91,15 +90,31 @@ export default function DashboardPage() {
   const summaryCards = useMemo(
     () => [
       { label: "Wallet", value: walletLabel, icon: Wallet },
-      { label: "Sales", value: analytics ? analytics.totals.sales.toString() : "0", icon: TrendingUp },
+      {
+        label: "Sales",
+        value: analytics ? analytics.totals.sales.toString() : "0",
+        icon: TrendingUp,
+      },
       {
         label: "Revenue",
         value: analytics ? `${analytics.totals.revenue.toFixed(2)} XLM` : "0 XLM",
         icon: ChartLineIcon,
       },
-      { label: "Downloads", value: analytics ? analytics.totals.downloads.toString() : "0", icon: Download },
-      { label: "Followers", value: analytics ? analytics.totals.followers.toString() : "0", icon: Users },
-      { label: "Wishlist", value: analytics ? analytics.totals.wishlistAdds.toString() : "0", icon: Heart },
+      {
+        label: "Downloads",
+        value: analytics ? analytics.totals.downloads.toString() : "0",
+        icon: Download,
+      },
+      {
+        label: "Followers",
+        value: analytics ? analytics.totals.followers.toString() : "0",
+        icon: Users,
+      },
+      {
+        label: "Wishlist",
+        value: analytics ? analytics.totals.wishlistAdds.toString() : "0",
+        icon: Heart,
+      },
     ],
     [analytics, walletLabel],
   )
@@ -113,10 +128,16 @@ export default function DashboardPage() {
       description="Track sales, revenue, downloads, engagement, saves, followers, reviews, and recent activity from one responsive command center."
       actions={
         <>
-          <Link href="/upload" className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black">
+          <Link
+            href="/upload"
+            className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black"
+          >
             Upload Content
           </Link>
-          <Link href="/marketplace" className="rounded-full border border-white/15 bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white">
+          <Link
+            href="/marketplace"
+            className="rounded-full border border-white/15 bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white"
+          >
             Open Marketplace
           </Link>
         </>
@@ -159,7 +180,9 @@ export default function DashboardPage() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">{card.label}</p>
+                    <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                      {card.label}
+                    </p>
                     <p className="mt-3 text-2xl font-semibold text-white">{card.value}</p>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-black/30 p-3 text-cyan-200">
@@ -175,7 +198,9 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Performance</p>
-                  <h2 className="mt-2 text-xl font-semibold">Sales, revenue, downloads, and engagement.</h2>
+                  <h2 className="mt-2 text-xl font-semibold">
+                    Sales, revenue, downloads, and engagement.
+                  </h2>
                 </div>
                 <TrendingUp className="h-5 w-5 text-emerald-300" />
               </div>
@@ -194,10 +219,34 @@ export default function DashboardPage() {
                     <YAxis tickLine={false} axisLine={false} tickMargin={12} />
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <ChartLegend content={<ChartLegendContent />} />
-                    <Line type="monotone" dataKey="sales" stroke="var(--color-sales)" strokeWidth={2.5} dot={false} />
-                    <Line type="monotone" dataKey="revenue" stroke="var(--color-revenue)" strokeWidth={2.5} dot={false} />
-                    <Line type="monotone" dataKey="downloads" stroke="var(--color-downloads)" strokeWidth={2.5} dot={false} />
-                    <Line type="monotone" dataKey="engagement" stroke="var(--color-engagement)" strokeWidth={2.5} dot={false} />
+                    <Line
+                      type="monotone"
+                      dataKey="sales"
+                      stroke="var(--color-sales)"
+                      strokeWidth={2.5}
+                      dot={false}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="var(--color-revenue)"
+                      strokeWidth={2.5}
+                      dot={false}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="downloads"
+                      stroke="var(--color-downloads)"
+                      strokeWidth={2.5}
+                      dot={false}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="engagement"
+                      stroke="var(--color-engagement)"
+                      strokeWidth={2.5}
+                      dot={false}
+                    />
                   </RechartsLineChart>
                 </ChartContainer>
               </div>
@@ -210,7 +259,9 @@ export default function DashboardPage() {
                   <h2 className="text-xl font-semibold">Notification Center</h2>
                 </div>
                 <p className="mt-2 text-sm text-zinc-400">
-                  {notificationCount ? `${notificationCount} unread or recent updates` : "No notifications yet."}
+                  {notificationCount
+                    ? `${notificationCount} unread or recent updates`
+                    : "No notifications yet."}
                 </p>
                 <div className="mt-4 space-y-3">
                   {notifications.slice(0, 4).map((notification) => (
@@ -221,9 +272,13 @@ export default function DashboardPage() {
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <p className="font-semibold">{notification.title}</p>
-                          <p className="mt-1 text-sm leading-6 text-zinc-400">{notification.message}</p>
+                          <p className="mt-1 text-sm leading-6 text-zinc-400">
+                            {notification.message}
+                          </p>
                         </div>
-                        <span className={`mt-1 h-2.5 w-2.5 rounded-full ${notification.read ? "bg-white/20" : "bg-emerald-400"}`} />
+                        <span
+                          className={`mt-1 h-2.5 w-2.5 rounded-full ${notification.read ? "bg-white/20" : "bg-emerald-400"}`}
+                        />
                       </div>
                     </article>
                   ))}
@@ -242,7 +297,9 @@ export default function DashboardPage() {
                 </div>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
                   <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
-                    <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Average rating</p>
+                    <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">
+                      Average rating
+                    </p>
                     <p className="mt-2 text-2xl font-semibold text-white">
                       {analytics ? analytics.averages.rating.toFixed(1) : "0.0"}
                       <Star className="ml-2 inline-block h-4 w-4 text-amber-300" />
@@ -250,7 +307,9 @@ export default function DashboardPage() {
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
                     <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Reviews</p>
-                    <p className="mt-2 text-2xl font-semibold text-white">{analytics ? analytics.totals.reviews : 0}</p>
+                    <p className="mt-2 text-2xl font-semibold text-white">
+                      {analytics ? analytics.totals.reviews : 0}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -282,27 +341,44 @@ export default function DashboardPage() {
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <h3 className="text-lg font-semibold">{listing.name}</h3>
-                          <p className="mt-1 line-clamp-2 text-sm text-zinc-400">{listing.description}</p>
+                          <p className="mt-1 line-clamp-2 text-sm text-zinc-400">
+                            {listing.description}
+                          </p>
                         </div>
-                        <Link href={`/post/${listing.nftId}`} className="rounded-full border border-white/10 p-2 text-cyan-200">
+                        <Link
+                          href={`/post/${listing.nftId}`}
+                          className="rounded-full border border-white/10 p-2 text-cyan-200"
+                        >
                           <ArrowUpRight className="h-4 w-4" />
                         </Link>
                       </div>
                       <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                         <div className="rounded-2xl border border-white/10 bg-black/25 p-3">
-                          <p className="text-[11px] uppercase tracking-[0.16em] text-zinc-500">Sales</p>
+                          <p className="text-[11px] uppercase tracking-[0.16em] text-zinc-500">
+                            Sales
+                          </p>
                           <p className="mt-2 font-semibold">{listing.totalLicensesSold}</p>
                         </div>
                         <div className="rounded-2xl border border-white/10 bg-black/25 p-3">
-                          <p className="text-[11px] uppercase tracking-[0.16em] text-zinc-500">Revenue</p>
-                          <p className="mt-2 font-semibold">{listing.totalRevenue.toFixed(2)} XLM</p>
+                          <p className="text-[11px] uppercase tracking-[0.16em] text-zinc-500">
+                            Revenue
+                          </p>
+                          <p className="mt-2 font-semibold">
+                            {listing.totalRevenue.toFixed(2)} XLM
+                          </p>
                         </div>
                         <div className="rounded-2xl border border-white/10 bg-black/25 p-3">
-                          <p className="text-[11px] uppercase tracking-[0.16em] text-zinc-500">Rating</p>
-                          <p className="mt-2 font-semibold">{listing.averageRating.toFixed(1)} / 5</p>
+                          <p className="text-[11px] uppercase tracking-[0.16em] text-zinc-500">
+                            Rating
+                          </p>
+                          <p className="mt-2 font-semibold">
+                            {listing.averageRating.toFixed(1)} / 5
+                          </p>
                         </div>
                         <div className="rounded-2xl border border-white/10 bg-black/25 p-3">
-                          <p className="text-[11px] uppercase tracking-[0.16em] text-zinc-500">Popularity</p>
+                          <p className="text-[11px] uppercase tracking-[0.16em] text-zinc-500">
+                            Popularity
+                          </p>
                           <p className="mt-2 font-semibold">{listing.popularityScore}</p>
                         </div>
                       </div>
@@ -318,12 +394,18 @@ export default function DashboardPage() {
                   <h3 className="text-lg font-semibold">Purchase history</h3>
                   <div className="mt-4 space-y-3">
                     {history?.purchases.slice(0, 5).map((purchase) => (
-                      <div key={purchase._id} className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                      <div
+                        key={purchase._id}
+                        className="rounded-2xl border border-white/10 bg-black/25 p-4"
+                      >
                         <div className="flex items-start justify-between gap-3">
                           <div>
                             <p className="font-medium">{purchase.licenseType} license</p>
                             <p className="mt-1 text-sm text-zinc-400">
-                              {purchase.price.toFixed(2)} XLM, {formatDistanceToNow(new Date(purchase.createdAt), { addSuffix: true })}
+                              {purchase.price.toFixed(2)} XLM,{" "}
+                              {formatDistanceToNow(new Date(purchase.createdAt), {
+                                addSuffix: true,
+                              })}
                             </p>
                           </div>
                           <p className="text-sm text-zinc-500">{purchase.txHash.slice(0, 10)}...</p>
@@ -342,10 +424,16 @@ export default function DashboardPage() {
                   <h3 className="text-lg font-semibold">Download history</h3>
                   <div className="mt-4 space-y-3">
                     {history?.downloads.slice(0, 5).map((download) => (
-                      <div key={download._id} className="rounded-2xl border border-white/10 bg-black/25 p-4">
-                        <p className="font-medium">{download.fileName || `Token #${download.tokenId}`}</p>
+                      <div
+                        key={download._id}
+                        className="rounded-2xl border border-white/10 bg-black/25 p-4"
+                      >
+                        <p className="font-medium">
+                          {download.fileName || `Token #${download.tokenId}`}
+                        </p>
                         <p className="mt-1 text-sm text-zinc-400">
-                          {download.licenseType || "download"} · {formatDistanceToNow(new Date(download.createdAt), { addSuffix: true })}
+                          {download.licenseType || "download"} ·{" "}
+                          {formatDistanceToNow(new Date(download.createdAt), { addSuffix: true })}
                         </p>
                       </div>
                     ))}
@@ -361,17 +449,32 @@ export default function DashboardPage() {
 
             <TabsContent value="actions" className="mt-4">
               <div className="grid gap-4 lg:grid-cols-3">
-                <Link href="/marketplace" className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 transition hover:-translate-y-1 hover:border-cyan-300/40">
+                <Link
+                  href="/marketplace"
+                  className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 transition hover:-translate-y-1 hover:border-cyan-300/40"
+                >
                   <h3 className="text-lg font-semibold">Open marketplace</h3>
-                  <p className="mt-2 text-sm leading-6 text-zinc-400">Review trending content, saved items, and licensing opportunities.</p>
+                  <p className="mt-2 text-sm leading-6 text-zinc-400">
+                    Review trending content, saved items, and licensing opportunities.
+                  </p>
                 </Link>
-                <Link href="/upload" className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 transition hover:-translate-y-1 hover:border-cyan-300/40">
+                <Link
+                  href="/upload"
+                  className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 transition hover:-translate-y-1 hover:border-cyan-300/40"
+                >
                   <h3 className="text-lg font-semibold">Publish new media</h3>
-                  <p className="mt-2 text-sm leading-6 text-zinc-400">Upload fresh work and mint it to the network in one guided flow.</p>
+                  <p className="mt-2 text-sm leading-6 text-zinc-400">
+                    Upload fresh work and mint it to the network in one guided flow.
+                  </p>
                 </Link>
-                <Link href="/profile" className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 transition hover:-translate-y-1 hover:border-cyan-300/40">
+                <Link
+                  href="/profile"
+                  className="rounded-3xl border border-white/10 bg-white/[0.05] p-5 transition hover:-translate-y-1 hover:border-cyan-300/40"
+                >
                   <h3 className="text-lg font-semibold">Polish your profile</h3>
-                  <p className="mt-2 text-sm leading-6 text-zinc-400">Refresh your creator identity, avatar, bio, and showcase title.</p>
+                  <p className="mt-2 text-sm leading-6 text-zinc-400">
+                    Refresh your creator identity, avatar, bio, and showcase title.
+                  </p>
                 </Link>
               </div>
             </TabsContent>

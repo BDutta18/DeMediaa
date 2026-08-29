@@ -2,7 +2,15 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight, Bell, GalleryHorizontalEnd, LayoutDashboard, Library, Search, WalletCards } from "lucide-react"
+import {
+  ArrowUpRight,
+  Bell,
+  GalleryHorizontalEnd,
+  LayoutDashboard,
+  Library,
+  Search,
+  WalletCards,
+} from "lucide-react"
 
 const footerLinks = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -19,14 +27,25 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
         <div>
           <Link href="/" className="inline-flex items-center gap-4">
-            <Image src="/dm-logo-mark.svg" alt="DeMedia logo" width={64} height={64} className="h-16 w-16 rounded-2xl border border-white/10 object-cover" />
+            <Image
+              src="/dm-logo-mark.svg"
+              alt="DeMedia logo"
+              width={64}
+              height={64}
+              className="h-16 w-16 rounded-2xl border border-white/10 object-cover"
+            />
             <div>
-              <p className="font-[family-name:var(--font-display)] text-2xl font-semibold">DeMedia</p>
-              <p className="mt-1 text-sm text-zinc-400">Creator ownership, publishing, and verified media rails.</p>
+              <p className="font-[family-name:var(--font-display)] text-2xl font-semibold">
+                DeMedia
+              </p>
+              <p className="mt-1 text-sm text-zinc-400">
+                Creator ownership, publishing, and verified media rails.
+              </p>
             </div>
           </Link>
           <p className="mt-6 max-w-xl text-sm leading-6 text-zinc-400">
-            Built for creators and communities that want media provenance, wallet-native identity, and monetization in one polished workspace.
+            Built for creators and communities that want media provenance, wallet-native identity,
+            and monetization in one polished workspace.
           </p>
         </div>
 

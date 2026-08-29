@@ -1,21 +1,21 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose"
 
 export interface IContentFingerprint extends Document {
-  nftId: string;
-  tokenId: string;
-  author: string;
-  ipfsHash: string;
-  phash: string;
-  dhash: string;
-  ahash: string;
-  crc32: string;
-  ssdeep: string;
-  sha256: string;
-  width: number;
-  height: number;
-  mimeType: string;
-  fileSize: number;
-  createdAt: Date;
+  nftId: string
+  tokenId: string
+  author: string
+  ipfsHash: string
+  phash: string
+  dhash: string
+  ahash: string
+  crc32: string
+  ssdeep: string
+  sha256: string
+  width: number
+  height: number
+  mimeType: string
+  fileSize: number
+  createdAt: Date
 }
 
 const contentFingerprintSchema = new Schema<IContentFingerprint>(
@@ -35,12 +35,9 @@ const contentFingerprintSchema = new Schema<IContentFingerprint>(
     mimeType: { type: String, default: "image/unknown" },
     fileSize: { type: Number, default: 0 },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-contentFingerprintSchema.index({ phash: 1, sha256: 1 });
+contentFingerprintSchema.index({ phash: 1, sha256: 1 })
 
-export default mongoose.model<IContentFingerprint>(
-  "ContentFingerprint",
-  contentFingerprintSchema
-);
+export default mongoose.model<IContentFingerprint>("ContentFingerprint", contentFingerprintSchema)

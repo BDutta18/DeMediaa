@@ -8,9 +8,10 @@ export const getJwtSecret = (): string => {
 
   if (!warned) {
     warned = true
-    console.warn("JWT_SECRET is missing. Using temporary fallback secret. Set JWT_SECRET in environment.")
+    console.warn(
+      "JWT_SECRET is missing. Using temporary fallback secret. Set JWT_SECRET in environment.",
+    )
   }
 
   return FALLBACK_JWT_SECRET
 }
-

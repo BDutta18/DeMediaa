@@ -2,7 +2,7 @@ import { getBackendApiBaseUrl } from "@/lib/backend-url"
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ listingId: string }> }
+  { params }: { params: Promise<{ listingId: string }> },
 ) {
   try {
     const { listingId } = await params
@@ -16,7 +16,10 @@ export async function GET(
         const errorJson = await backendResponse.json()
         return Response.json(errorJson, { status: backendResponse.status })
       }
-      return Response.json({ success: false, message: "Listing not found" }, { status: backendResponse.status })
+      return Response.json(
+        { success: false, message: "Listing not found" },
+        { status: backendResponse.status },
+      )
     }
 
     const data = await backendResponse.json()

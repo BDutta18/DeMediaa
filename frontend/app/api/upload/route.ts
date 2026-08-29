@@ -28,7 +28,10 @@ export async function POST(request: Request) {
         return Response.json(errorJson, { status: backendResponse.status })
       }
       const error = await backendResponse.text()
-      return Response.json({ success: false, message: error || "Upload failed" }, { status: backendResponse.status })
+      return Response.json(
+        { success: false, message: error || "Upload failed" },
+        { status: backendResponse.status },
+      )
     }
 
     const data = await backendResponse.json()

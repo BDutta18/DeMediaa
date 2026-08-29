@@ -1,6 +1,14 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, useMemo, useCallback, type ReactNode } from "react"
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  type ReactNode,
+} from "react"
 import { useRouter, usePathname } from "next/navigation"
 
 interface AuthContextType {
@@ -77,9 +85,5 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [isAuthenticated, address, token, login, logout, isLoading],
   )
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

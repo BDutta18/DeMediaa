@@ -37,6 +37,7 @@ If you discover a security vulnerability in DeMedia, please report it responsibl
 ## Scope
 
 In scope for reports:
+
 - Authentication bypass or JWT forgery
 - Privilege escalation on protected API routes
 - XSS vulnerabilities in frontend components
@@ -44,6 +45,7 @@ In scope for reports:
 - Stellar transaction manipulation
 
 Out of scope:
+
 - Denial of Service attacks on public endpoints
 - Social engineering attacks
 - Theoretical vulnerabilities without a working proof of concept

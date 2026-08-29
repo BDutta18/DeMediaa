@@ -188,7 +188,11 @@ export default function ProfileClient({ initialIsNewProfile }: { initialIsNewPro
                   }}
                   disabled={avatarUploading}
                 />
-                {avatarUploading ? <Upload className="h-4 w-4 animate-pulse" /> : <Camera className="h-4 w-4" />}
+                {avatarUploading ? (
+                  <Upload className="h-4 w-4 animate-pulse" />
+                ) : (
+                  <Camera className="h-4 w-4" />
+                )}
               </label>
             </div>
             <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -209,14 +213,21 @@ export default function ProfileClient({ initialIsNewProfile }: { initialIsNewPro
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                 <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Showcase title</p>
-                <p className="mt-2 text-sm font-semibold text-zinc-100">{formData.showcaseTitle || "My Creation Vault"}</p>
-                <p className="mt-2 text-xs text-zinc-500">Public-facing label for your collection.</p>
+                <p className="mt-2 text-sm font-semibold text-zinc-100">
+                  {formData.showcaseTitle || "My Creation Vault"}
+                </p>
+                <p className="mt-2 text-xs text-zinc-500">
+                  Public-facing label for your collection.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        <form onSubmit={save} className="rounded-[28px] border border-white/10 bg-white/[0.05] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur">
+        <form
+          onSubmit={save}
+          className="rounded-[28px] border border-white/10 bg-white/[0.05] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur"
+        >
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               ["name", "Display name"],
@@ -248,7 +259,10 @@ export default function ProfileClient({ initialIsNewProfile }: { initialIsNewPro
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <button disabled={saving} className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black disabled:opacity-50">
+            <button
+              disabled={saving}
+              className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black disabled:opacity-50"
+            >
               {saving ? "Saving..." : isNewProfile ? "Create Profile" : "Save Profile"}
             </button>
             {message ? <p className="text-sm text-zinc-300">{message}</p> : null}

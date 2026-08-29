@@ -102,5 +102,11 @@ export default function ArchiveBackground() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none opacity-60" style={{ zIndex: 0 }} />
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none opacity-60"
+      style={{ zIndex: 0 }}
+    />
+  )
 }

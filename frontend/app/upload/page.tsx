@@ -112,14 +112,22 @@ export default function UploadPage() {
       if (data.data.isOriginal) {
         setCopyrightMessage("Content appears original. No matches found in the registry.")
       } else {
-        const exactCount = data.data.matches.filter((m: CopyrightMatch) => m.matchType === "exact").length
-        const nearCount = data.data.matches.filter((m: CopyrightMatch) => m.matchType === "near-duplicate").length
-        const similarCount = data.data.matches.filter((m: CopyrightMatch) => m.matchType === "similar").length
+        const exactCount = data.data.matches.filter(
+          (m: CopyrightMatch) => m.matchType === "exact",
+        ).length
+        const nearCount = data.data.matches.filter(
+          (m: CopyrightMatch) => m.matchType === "near-duplicate",
+        ).length
+        const similarCount = data.data.matches.filter(
+          (m: CopyrightMatch) => m.matchType === "similar",
+        ).length
         const parts: string[] = []
         if (exactCount) parts.push(`${exactCount} exact`)
         if (nearCount) parts.push(`${nearCount} near-duplicate`)
         if (similarCount) parts.push(`${similarCount} similar`)
-        setCopyrightMessage(`Found ${data.data.matches.length} potential match(es): ${parts.join(", ")}.`)
+        setCopyrightMessage(
+          `Found ${data.data.matches.length} potential match(es): ${parts.join(", ")}.`,
+        )
       }
     } catch (error) {
       setCopyrightStatus("error")
@@ -135,9 +143,15 @@ export default function UploadPage() {
       return
     }
 
-    if (copyrightResult && !copyrightResult.isOriginal && copyrightResult.riskLevel === "critical") {
+    if (
+      copyrightResult &&
+      !copyrightResult.isOriginal &&
+      copyrightResult.riskLevel === "critical"
+    ) {
       setStatus("error")
-      setMessage("Upload blocked: exact content match detected. Please upload original content only.")
+      setMessage(
+        "Upload blocked: exact content match detected. Please upload original content only.",
+      )
       return
     }
 
@@ -224,7 +238,11 @@ export default function UploadPage() {
               }}
             />
             {previewUrl ? (
-              <img src={previewUrl} alt="Selected media preview" className="h-full max-h-[340px] w-full rounded-2xl object-cover" />
+              <img
+                src={previewUrl}
+                alt="Selected media preview"
+                className="h-full max-h-[340px] w-full rounded-2xl object-cover"
+              />
             ) : (
               <>
                 <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-black/25">
@@ -292,18 +310,29 @@ export default function UploadPage() {
                     onClick={() => setShowCopyrightDetails(!showCopyrightDetails)}
                     className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wider opacity-70 hover:opacity-100"
                   >
-                    {showCopyrightDetails ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                    {showCopyrightDetails ? (
+                      <ChevronUp className="h-3 w-3" />
+                    ) : (
+                      <ChevronDown className="h-3 w-3" />
+                    )}
                     {showCopyrightDetails ? "Hide" : "Show"} Details
                   </button>
                   {showCopyrightDetails && (
                     <div className="mt-2 space-y-2">
                       {copyrightResult.matches.map((match, idx) => (
-                        <div key={idx} className="flex items-center gap-2 rounded-xl bg-black/20 px-3 py-2 text-xs">
-                          <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
-                            match.matchType === "exact" ? "bg-red-500/20 text-red-300" :
-                            match.matchType === "near-duplicate" ? "bg-orange-500/20 text-orange-300" :
-                            "bg-yellow-500/20 text-yellow-300"
-                          }`}>
+                        <div
+                          key={idx}
+                          className="flex items-center gap-2 rounded-xl bg-black/20 px-3 py-2 text-xs"
+                        >
+                          <span
+                            className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
+                              match.matchType === "exact"
+                                ? "bg-red-500/20 text-red-300"
+                                : match.matchType === "near-duplicate"
+                                  ? "bg-orange-500/20 text-orange-300"
+                                  : "bg-yellow-500/20 text-yellow-300"
+                            }`}
+                          >
                             {match.matchType}
                           </span>
                           <span className="text-zinc-300">Token #{match.tokenId}</span>
@@ -322,17 +351,43 @@ export default function UploadPage() {
                   onClick={() => setShowFingerprint(!showFingerprint)}
                   className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wider opacity-70 hover:opacity-100"
                 >
-                  {showFingerprint ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                  {showFingerprint ? (
+                    <ChevronUp className="h-3 w-3" />
+                  ) : (
+                    <ChevronDown className="h-3 w-3" />
+                  )}
                   {showFingerprint ? "Hide" : "Show"} Fingerprint
                 </button>
                 {showFingerprint && (
                   <div className="mt-2 grid gap-1 rounded-xl bg-black/20 p-3 text-[10px] font-mono text-zinc-400">
-                    <div className="flex justify-between"><span className="text-zinc-500">SHA-256</span><span className="break-all text-right">{copyrightResult.fingerprint.sha256}</span></div>
-                    <div className="flex justify-between"><span className="text-zinc-500">pHash</span><span>{copyrightResult.fingerprint.phash}</span></div>
-                    <div className="flex justify-between"><span className="text-zinc-500">dHash</span><span>{copyrightResult.fingerprint.dhash}</span></div>
-                    <div className="flex justify-between"><span className="text-zinc-500">aHash</span><span>{copyrightResult.fingerprint.ahash}</span></div>
-                    <div className="flex justify-between"><span className="text-zinc-500">CRC32</span><span>{copyrightResult.fingerprint.crc32}</span></div>
-                    <div className="flex justify-between"><span className="text-zinc-500">SSDEEP</span><span className="break-all text-right">{copyrightResult.fingerprint.ssdeep}</span></div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">SHA-256</span>
+                      <span className="break-all text-right">
+                        {copyrightResult.fingerprint.sha256}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">pHash</span>
+                      <span>{copyrightResult.fingerprint.phash}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">dHash</span>
+                      <span>{copyrightResult.fingerprint.dhash}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">aHash</span>
+                      <span>{copyrightResult.fingerprint.ahash}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">CRC32</span>
+                      <span>{copyrightResult.fingerprint.crc32}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-500">SSDEEP</span>
+                      <span className="break-all text-right">
+                        {copyrightResult.fingerprint.ssdeep}
+                      </span>
+                    </div>
                   </div>
                 )}
               </div>
@@ -372,7 +427,9 @@ export default function UploadPage() {
             </label>
 
             <label>
-              <span className="text-xs uppercase tracking-[0.14em] text-zinc-500">Price in XLM</span>
+              <span className="text-xs uppercase tracking-[0.14em] text-zinc-500">
+                Price in XLM
+              </span>
               <input
                 value={price}
                 onChange={(event) => setPrice(event.target.value)}
@@ -384,8 +441,14 @@ export default function UploadPage() {
           </div>
 
           {message ? (
-            <div className={`mt-5 flex gap-3 rounded-2xl border p-4 text-sm ${status === "error" ? "border-red-400/30 bg-red-500/10 text-red-100" : status === "success" ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-100" : "border-white/10 bg-black/25 text-zinc-300"}`}>
-              {status === "success" ? <CheckCircle2 className="h-5 w-5 shrink-0" /> : <AlertCircle className="h-5 w-5 shrink-0" />}
+            <div
+              className={`mt-5 flex gap-3 rounded-2xl border p-4 text-sm ${status === "error" ? "border-red-400/30 bg-red-500/10 text-red-100" : status === "success" ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-100" : "border-white/10 bg-black/25 text-zinc-300"}`}
+            >
+              {status === "success" ? (
+                <CheckCircle2 className="h-5 w-5 shrink-0" />
+              ) : (
+                <AlertCircle className="h-5 w-5 shrink-0" />
+              )}
               <p>{message}</p>
             </div>
           ) : null}
@@ -398,7 +461,10 @@ export default function UploadPage() {
             >
               {status === "uploading" ? "Uploading..." : "Upload and Mint"}
             </button>
-            <Link href="/content" className="rounded-full border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50">
+            <Link
+              href="/content"
+              className="rounded-full border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/50"
+            >
               View Library
             </Link>
           </div>

@@ -137,7 +137,10 @@ export default function NotificationsPage() {
       ) : !isAuthenticated ? (
         <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-8 text-center">
           <p className="text-lg font-semibold">Connect your wallet to unlock notifications.</p>
-          <Link href="/auth" className="mt-5 inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black">
+          <Link
+            href="/auth"
+            className="mt-5 inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black"
+          >
             Connect wallet
           </Link>
         </div>
@@ -164,16 +167,24 @@ export default function NotificationsPage() {
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
                           <Bell className={`h-4 w-4 ${notificationTone[notification.type]}`} />
-                          <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">{notification.type}</p>
+                          <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                            {notification.type}
+                          </p>
                         </div>
-                        <h3 className="mt-3 text-lg font-semibold text-white">{notification.title}</h3>
-                        <p className="mt-2 text-sm leading-6 text-zinc-400">{notification.message}</p>
+                        <h3 className="mt-3 text-lg font-semibold text-white">
+                          {notification.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-6 text-zinc-400">
+                          {notification.message}
+                        </p>
                         <p className="mt-3 text-xs text-zinc-500">
                           {new Date(notification.createdAt).toLocaleString()}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={`h-2.5 w-2.5 rounded-full ${notification.read ? "bg-white/20" : "bg-emerald-400"}`} />
+                        <span
+                          className={`h-2.5 w-2.5 rounded-full ${notification.read ? "bg-white/20" : "bg-emerald-400"}`}
+                        />
                         {notification.href ? (
                           <Link
                             href={notification.href}
@@ -212,9 +223,15 @@ export default function NotificationsPage() {
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="min-w-0">
-                          <p className="text-sm uppercase tracking-[0.18em] text-zinc-500">{notification.type}</p>
-                          <h3 className="mt-3 text-lg font-semibold text-white">{notification.title}</h3>
-                          <p className="mt-2 text-sm leading-6 text-zinc-400">{notification.message}</p>
+                          <p className="text-sm uppercase tracking-[0.18em] text-zinc-500">
+                            {notification.type}
+                          </p>
+                          <h3 className="mt-3 text-lg font-semibold text-white">
+                            {notification.title}
+                          </h3>
+                          <p className="mt-2 text-sm leading-6 text-zinc-400">
+                            {notification.message}
+                          </p>
                         </div>
                         <button
                           onClick={() => handleMarkRead(notification)}
@@ -228,7 +245,9 @@ export default function NotificationsPage() {
               ) : (
                 <div className="rounded-3xl border border-dashed border-white/10 bg-white/[0.04] p-10 text-center">
                   <Sparkles className="mx-auto h-10 w-10 text-zinc-600" />
-                  <h3 className="mt-4 text-xl font-semibold text-white">No unread notifications.</h3>
+                  <h3 className="mt-4 text-xl font-semibold text-white">
+                    No unread notifications.
+                  </h3>
                 </div>
               )}
             </div>

@@ -10,7 +10,8 @@ interface SeoProps {
 
 export const defaultSeo = {
   title: "DeMedia | Decentralized Media Publishing Platform",
-  description: "Decentralized media content publishing and licensing platform built on Stellar with Soroban smart contracts.",
+  description:
+    "Decentralized media content publishing and licensing platform built on Stellar with Soroban smart contracts.",
   url: "https://de-media-xi.vercel.app",
   siteName: "DeMedia",
   image: "/dm-logo-mark.svg",

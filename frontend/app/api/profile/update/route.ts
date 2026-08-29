@@ -23,7 +23,10 @@ export async function PUT(request: NextRequest) {
     const data = await response.json()
 
     if (!response.ok) {
-      return NextResponse.json({ error: data.error || "Failed to update profile" }, { status: response.status })
+      return NextResponse.json(
+        { error: data.error || "Failed to update profile" },
+        { status: response.status },
+      )
     }
 
     return NextResponse.json(data)

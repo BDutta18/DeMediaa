@@ -21,7 +21,10 @@ export async function GET(request: Request) {
         const errorJson = await backendResponse.json()
         return Response.json(errorJson, { status: backendResponse.status })
       }
-      return Response.json({ success: false, message: "Failed to fetch creator data" }, { status: backendResponse.status })
+      return Response.json(
+        { success: false, message: "Failed to fetch creator data" },
+        { status: backendResponse.status },
+      )
     }
 
     const data = await backendResponse.json()

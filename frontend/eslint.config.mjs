@@ -1,12 +1,5 @@
 export default [
   {
-    ignores: [
-      "node_modules/**",
-      ".next/**",
-      "dist/**",
-      "coverage/**",
-      "**/*.ts",
-      "**/*.tsx",
-    ],
+    ignores: ["node_modules/**", ".next/**", "dist/**", "coverage/**", "**/*.ts", "**/*.tsx"],
   },
 ]

@@ -57,7 +57,9 @@ export function CopyrightBadge({ tokenId }: { tokenId: string }) {
 
   return (
     <div className="rounded-2xl border border-border/70 bg-card p-4 sm:p-5">
-      <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Copyright &amp; Provenance</p>
+      <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+        Copyright &amp; Provenance
+      </p>
       <div className="mt-3 flex items-center gap-2">
         <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-500/10">
           <ShieldCheck className="h-4 w-4 text-emerald-400" />
@@ -78,12 +80,32 @@ export function CopyrightBadge({ tokenId }: { tokenId: string }) {
 
       {expanded && (
         <div className="mt-2 grid gap-1.5 rounded-xl bg-muted/50 p-3 text-[10px] font-mono text-muted-foreground">
-          <div className="flex justify-between gap-2"><span className="text-zinc-500 shrink-0">SHA-256</span><span className="break-all text-right">{fingerprint.sha256}</span></div>
-          <div className="flex justify-between gap-2"><span className="text-zinc-500 shrink-0">pHash</span><span className="break-all text-right">{fingerprint.phash}</span></div>
-          <div className="flex justify-between gap-2"><span className="text-zinc-500 shrink-0">dHash</span><span className="break-all text-right">{fingerprint.dhash}</span></div>
-          <div className="flex justify-between gap-2"><span className="text-zinc-500 shrink-0">CRC32</span><span>{fingerprint.crc32}</span></div>
-          <div className="flex justify-between gap-2"><span className="text-zinc-500 shrink-0">Size</span><span>{(fingerprint.fileSize / 1024).toFixed(1)} KB</span></div>
-          <div className="flex justify-between gap-2"><span className="text-zinc-500 shrink-0">Dimensions</span><span>{fingerprint.width}x{fingerprint.height}</span></div>
+          <div className="flex justify-between gap-2">
+            <span className="text-zinc-500 shrink-0">SHA-256</span>
+            <span className="break-all text-right">{fingerprint.sha256}</span>
+          </div>
+          <div className="flex justify-between gap-2">
+            <span className="text-zinc-500 shrink-0">pHash</span>
+            <span className="break-all text-right">{fingerprint.phash}</span>
+          </div>
+          <div className="flex justify-between gap-2">
+            <span className="text-zinc-500 shrink-0">dHash</span>
+            <span className="break-all text-right">{fingerprint.dhash}</span>
+          </div>
+          <div className="flex justify-between gap-2">
+            <span className="text-zinc-500 shrink-0">CRC32</span>
+            <span>{fingerprint.crc32}</span>
+          </div>
+          <div className="flex justify-between gap-2">
+            <span className="text-zinc-500 shrink-0">Size</span>
+            <span>{(fingerprint.fileSize / 1024).toFixed(1)} KB</span>
+          </div>
+          <div className="flex justify-between gap-2">
+            <span className="text-zinc-500 shrink-0">Dimensions</span>
+            <span>
+              {fingerprint.width}x{fingerprint.height}
+            </span>
+          </div>
         </div>
       )}
     </div>

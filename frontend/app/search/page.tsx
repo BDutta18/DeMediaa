@@ -18,7 +18,11 @@ import { FeatureShell } from "@/components/feature-shell"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { resolveMediaUrl } from "@/lib/media"
-import { marketplaceApi, type MarketplaceListing, type MarketplaceSortMode } from "@/lib/marketplace"
+import {
+  marketplaceApi,
+  type MarketplaceListing,
+  type MarketplaceSortMode,
+} from "@/lib/marketplace"
 
 interface UserResult {
   _id: string
@@ -32,8 +36,16 @@ const DEFAULT_CATEGORIES = ["all", "Photography", "Music", "Video", "Software", 
 
 const searchHighlights = [
   { icon: Users, title: "Creator profiles", text: "Find people behind published work." },
-  { icon: Sparkles, title: "Verified identity", text: "Wallet-first discovery with clean profile signals." },
-  { icon: TrendingUp, title: "Popularity filters", text: "Surface content that is actually moving." },
+  {
+    icon: Sparkles,
+    title: "Verified identity",
+    text: "Wallet-first discovery with clean profile signals.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Popularity filters",
+    text: "Surface content that is actually moving.",
+  },
 ]
 
 const formatXlm = (value: number) => `${value.toFixed(2)} XLM`
@@ -61,7 +73,9 @@ export default function SearchPage() {
         const data = await response.json()
         if (!active || !data?.success) return
 
-        const categories = Array.isArray(data.data?.categories) ? data.data.categories.filter(Boolean) : []
+        const categories = Array.isArray(data.data?.categories)
+          ? data.data.categories.filter(Boolean)
+          : []
         setCategoryOptions(Array.from(new Set([...DEFAULT_CATEGORIES, ...categories])))
       } catch {
         // Keep the static defaults when suggestions fail.
@@ -140,7 +154,9 @@ export default function SearchPage() {
 
       setLoadingCreators(true)
       try {
-        const response = await fetch(`/api/user/search?name=${encodeURIComponent(query)}`, { cache: "no-store" })
+        const response = await fetch(`/api/user/search?name=${encodeURIComponent(query)}`, {
+          cache: "no-store",
+        })
         const data = await response.json()
         if (!active || !data?.success) return
         setCreatorResults(Array.isArray(data.data) ? data.data : [])
@@ -297,7 +313,10 @@ export default function SearchPage() {
               {loadingContent ? (
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                   {Array.from({ length: 6 }).map((_, index) => (
-                    <div key={index} className="rounded-3xl border border-white/10 bg-white/[0.05] p-4">
+                    <div
+                      key={index}
+                      className="rounded-3xl border border-white/10 bg-white/[0.05] p-4"
+                    >
                       <Skeleton className="h-48 w-full rounded-2xl" />
                       <Skeleton className="mt-4 h-5 w-2/3" />
                       <Skeleton className="mt-3 h-4 w-full" />
@@ -343,8 +362,12 @@ export default function SearchPage() {
                       <div className="p-5">
                         <div className="flex items-start justify-between gap-3">
                           <div className="min-w-0">
-                            <h3 className="truncate text-lg font-semibold text-white">{listing.name}</h3>
-                            <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-400">{listing.description}</p>
+                            <h3 className="truncate text-lg font-semibold text-white">
+                              {listing.name}
+                            </h3>
+                            <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-400">
+                              {listing.description}
+                            </p>
                           </div>
                           <button
                             className="rounded-full border border-white/10 bg-black/25 p-2 text-rose-300 transition hover:border-rose-300/50"
@@ -368,17 +391,22 @@ export default function SearchPage() {
                         <div className="mt-5 grid grid-cols-3 gap-2 text-xs">
                           <div className="rounded-2xl border border-white/10 bg-black/25 px-3 py-2">
                             <p className="text-zinc-500">Personal</p>
-                            <p className="mt-1 font-semibold text-cyan-200">{formatXlm(listing.licenseTypes.personal)}</p>
+                            <p className="mt-1 font-semibold text-cyan-200">
+                              {formatXlm(listing.licenseTypes.personal)}
+                            </p>
                           </div>
                           <div className="rounded-2xl border border-white/10 bg-black/25 px-3 py-2">
                             <p className="text-zinc-500">Rating</p>
                             <p className="mt-1 font-semibold text-amber-200">
-                              {listing.averageRating.toFixed(1)} <Star className="inline-block h-3.5 w-3.5" />
+                              {listing.averageRating.toFixed(1)}{" "}
+                              <Star className="inline-block h-3.5 w-3.5" />
                             </p>
                           </div>
                           <div className="rounded-2xl border border-white/10 bg-black/25 px-3 py-2">
                             <p className="text-zinc-500">Popularity</p>
-                            <p className="mt-1 font-semibold text-violet-200">{listing.popularityScore}</p>
+                            <p className="mt-1 font-semibold text-violet-200">
+                              {listing.popularityScore}
+                            </p>
                           </div>
                         </div>
 
@@ -402,9 +430,12 @@ export default function SearchPage() {
               ) : (
                 <div className="rounded-3xl border border-dashed border-white/10 bg-white/[0.04] p-10 text-center">
                   <Search className="mx-auto h-10 w-10 text-zinc-600" />
-                  <h3 className="mt-4 text-xl font-semibold text-white">No content matched those filters.</h3>
+                  <h3 className="mt-4 text-xl font-semibold text-white">
+                    No content matched those filters.
+                  </h3>
                   <p className="mt-2 text-sm leading-6 text-zinc-400">
-                    Try a broader category, lower the price range, or switch to trending to resurface popular drops.
+                    Try a broader category, lower the price range, or switch to trending to
+                    resurface popular drops.
                   </p>
                 </div>
               )}
@@ -414,7 +445,10 @@ export default function SearchPage() {
               {loadingCreators ? (
                 <div className="grid gap-4">
                   {Array.from({ length: 4 }).map((_, index) => (
-                    <div key={index} className="rounded-3xl border border-white/10 bg-white/[0.05] p-4">
+                    <div
+                      key={index}
+                      className="rounded-3xl border border-white/10 bg-white/[0.05] p-4"
+                    >
                       <Skeleton className="h-5 w-1/2" />
                       <Skeleton className="mt-3 h-4 w-2/3" />
                       <Skeleton className="mt-3 h-4 w-full" />
@@ -446,11 +480,17 @@ export default function SearchPage() {
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h3 className="truncate text-lg font-semibold text-white">{user.name || "Unnamed creator"}</h3>
+                        <h3 className="truncate text-lg font-semibold text-white">
+                          {user.name || "Unnamed creator"}
+                        </h3>
                         <p className="mt-1 font-mono text-xs text-zinc-500">
                           {user.address.slice(0, 8)}...{user.address.slice(-6)}
                         </p>
-                        {user.bio ? <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-400">{user.bio}</p> : null}
+                        {user.bio ? (
+                          <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-400">
+                            {user.bio}
+                          </p>
+                        ) : null}
                       </div>
                       <Link
                         href={`/profile/${user.address}`}

@@ -1,39 +1,39 @@
-import { Request, Response } from "express";
-import fs from "fs";
-import { asyncHandler } from "../utils/asyncHandler";
-import ContentFingerprint from "../models/fingerprint.models";
+import { Request, Response } from "express"
+import fs from "fs"
+import { asyncHandler } from "../utils/asyncHandler"
+import ContentFingerprint from "../models/fingerprint.models"
 import {
   computeContentFingerprint,
   findMatches,
   ContentFingerprintResult,
-} from "../services/copyrightDetection";
+} from "../services/copyrightDetection"
 
 export const checkCopyright = asyncHandler(async (req: Request, res: Response) => {
-  const userAddress = (req as any).user.address;
+  const userAddress = (req as any).user.address
 
   if (!req.file) {
-    return res.status(400).json({ success: false, message: "No file provided for copyright check" });
+    return res.status(400).json({ success: false, message: "No file provided for copyright check" })
   }
 
-  let filePath: string | undefined;
+  let filePath: string | undefined
   try {
-    filePath = req.file.path;
-    const fingerprint = computeContentFingerprint(filePath as string);
+    filePath = req.file.path
+    const fingerprint = computeContentFingerprint(filePath as string)
 
     const existing = await ContentFingerprint.find({}).select(
-      "tokenId author ipfsHash phash dhash ahash ssdeep sha256"
-    );
+      "tokenId author ipfsHash phash dhash ahash ssdeep sha256",
+    )
 
-    const matches = findMatches(fingerprint, existing);
+    const matches = findMatches(fingerprint, existing)
 
-    const isOriginal = matches.length === 0;
-    const hasExactMatch = matches.some((m) => m.matchType === "exact");
-    const hasNearDuplicate = matches.some((m) => m.matchType === "near-duplicate");
+    const isOriginal = matches.length === 0
+    const hasExactMatch = matches.some((m) => m.matchType === "exact")
+    const hasNearDuplicate = matches.some((m) => m.matchType === "near-duplicate")
 
-    let riskLevel: "low" | "medium" | "high" | "critical" = "low";
-    if (hasExactMatch) riskLevel = "critical";
-    else if (hasNearDuplicate) riskLevel = "high";
-    else if (matches.length > 0) riskLevel = "medium";
+    let riskLevel: "low" | "medium" | "high" | "critical" = "low"
+    if (hasExactMatch) riskLevel = "critical"
+    else if (hasNearDuplicate) riskLevel = "high"
+    else if (matches.length > 0) riskLevel = "medium"
 
     res.status(200).json({
       success: true,
@@ -57,27 +57,27 @@ export const checkCopyright = asyncHandler(async (req: Request, res: Response) =
       message: isOriginal
         ? "Content appears to be original"
         : `Found ${matches.length} potential match(es)`,
-    });
+    })
   } catch (error) {
-    console.error("Copyright check error:", error);
+    console.error("Copyright check error:", error)
     res.status(500).json({
       success: false,
       message: "Copyright detection failed",
       detail: error instanceof Error ? error.message : "Unknown error",
-    });
+    })
   } finally {
     if (filePath && fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+      fs.unlinkSync(filePath)
     }
   }
-});
+})
 
 export const getFingerprint = asyncHandler(async (req: Request, res: Response) => {
-  const { tokenId } = req.params;
+  const { tokenId } = req.params
 
-  const fingerprint = await ContentFingerprint.findOne({ tokenId });
+  const fingerprint = await ContentFingerprint.findOne({ tokenId })
   if (!fingerprint) {
-    return res.status(404).json({ success: false, message: "Fingerprint not found for this token" });
+    return res.status(404).json({ success: false, message: "Fingerprint not found for this token" })
   }
 
   res.status(200).json({
@@ -98,20 +98,20 @@ export const getFingerprint = asyncHandler(async (req: Request, res: Response) =
       ipfsHash: fingerprint.ipfsHash,
       createdAt: fingerprint.createdAt,
     },
-  });
-});
+  })
+})
 
 export const getSimilarContent = asyncHandler(async (req: Request, res: Response) => {
-  const { tokenId } = req.params;
+  const { tokenId } = req.params
 
-  const target = await ContentFingerprint.findOne({ tokenId });
+  const target = await ContentFingerprint.findOne({ tokenId })
   if (!target) {
-    return res.status(404).json({ success: false, message: "Fingerprint not found" });
+    return res.status(404).json({ success: false, message: "Fingerprint not found" })
   }
 
   const existing = await ContentFingerprint.find({ tokenId: { $ne: tokenId } }).select(
-    "tokenId author ipfsHash phash dhash ahash ssdeep sha256"
-  );
+    "tokenId author ipfsHash phash dhash ahash ssdeep sha256",
+  )
 
   const matches = findMatches(
     {
@@ -125,8 +125,8 @@ export const getSimilarContent = asyncHandler(async (req: Request, res: Response
       fileSize: target.fileSize,
       crc32: target.crc32,
     },
-    existing
-  );
+    existing,
+  )
 
   res.status(200).json({
     success: true,
@@ -135,18 +135,18 @@ export const getSimilarContent = asyncHandler(async (req: Request, res: Response
       matches: matches.slice(0, 20),
       totalScanned: existing.length,
     },
-  });
-});
+  })
+})
 
 export const saveFingerprint = async (
   nftId: string,
   tokenId: string,
   author: string,
   ipfsHash: string,
-  filePath: string
+  filePath: string,
 ): Promise<ContentFingerprintResult | null> => {
   try {
-    const fingerprint = computeContentFingerprint(filePath);
+    const fingerprint = computeContentFingerprint(filePath)
 
     await ContentFingerprint.create({
       nftId,
@@ -162,11 +162,11 @@ export const saveFingerprint = async (
       width: fingerprint.width,
       height: fingerprint.height,
       fileSize: fingerprint.fileSize,
-    });
+    })
 
-    return fingerprint;
+    return fingerprint
   } catch (error) {
-    console.error("Failed to save fingerprint:", error);
-    return null;
+    console.error("Failed to save fingerprint:", error)
+    return null
   }
-};
+}

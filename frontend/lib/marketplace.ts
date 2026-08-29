@@ -1,7 +1,8 @@
 "use client"
 
 export type LicenseType = "personal" | "commercial" | "exclusive"
-export type MarketplaceSortMode = "trending" | "popular" | "newest" | "price-asc" | "price-desc" | "rating"
+export type MarketplaceSortMode =
+  "trending" | "popular" | "newest" | "price-asc" | "price-desc" | "rating"
 
 export interface MarketplaceListing {
   _id: string
@@ -203,7 +204,9 @@ const requestJson = async <T>(path: string, init?: RequestInit): Promise<T> => {
 }
 
 export const marketplaceApi = {
-  search: async (params: URLSearchParams | Record<string, string | number | boolean | undefined>) => {
+  search: async (
+    params: URLSearchParams | Record<string, string | number | boolean | undefined>,
+  ) => {
     const query = params instanceof URLSearchParams ? params : new URLSearchParams()
     if (!(params instanceof URLSearchParams)) {
       Object.entries(params).forEach(([key, value]) => {
@@ -221,7 +224,9 @@ export const marketplaceApi = {
       query.set(key, String(value))
     })
 
-    return requestJson<{ success: boolean; data: MarketplaceListing[] }>(`/trending?${query.toString()}`)
+    return requestJson<{ success: boolean; data: MarketplaceListing[] }>(
+      `/trending?${query.toString()}`,
+    )
   },
   creatorAnalytics: async (token?: string | null, address?: string) => {
     const query = new URLSearchParams()
@@ -249,7 +254,9 @@ export const marketplaceApi = {
     return data as { success: boolean; data: WishlistItem[] }
   },
   saveWishlist: async (
-    payload: Pick<WishlistItem, "nftId" | "tokenId" | "creator" | "name" | "imageURL"> & { priceSnapshot?: number },
+    payload: Pick<WishlistItem, "nftId" | "tokenId" | "creator" | "name" | "imageURL"> & {
+      priceSnapshot?: number
+    },
     token?: string | null,
   ) => {
     return requestJson<{ success: boolean; data: WishlistItem }>("/wishlist", {
@@ -259,10 +266,13 @@ export const marketplaceApi = {
     })
   },
   removeWishlist: async (tokenId: string, token?: string | null) => {
-    return requestJson<{ success: boolean; deleted: boolean }>(`/wishlist/${encodeURIComponent(tokenId)}`, {
-      method: "DELETE",
-      headers: buildHeaders(token),
-    })
+    return requestJson<{ success: boolean; deleted: boolean }>(
+      `/wishlist/${encodeURIComponent(tokenId)}`,
+      {
+        method: "DELETE",
+        headers: buildHeaders(token),
+      },
+    )
   },
   fetchFollows: async (token?: string | null) => {
     const response = await fetch(`${MARKETPLACE_BASE}/follows`, {
@@ -286,13 +296,18 @@ export const marketplaceApi = {
     })
   },
   unfollowCreator: async (creatorAddress: string, token?: string | null) => {
-    return requestJson<{ success: boolean; deleted: boolean }>(`/follows/${encodeURIComponent(creatorAddress)}`, {
-      method: "DELETE",
-      headers: buildHeaders(token),
-    })
+    return requestJson<{ success: boolean; deleted: boolean }>(
+      `/follows/${encodeURIComponent(creatorAddress)}`,
+      {
+        method: "DELETE",
+        headers: buildHeaders(token),
+      },
+    )
   },
   fetchReviews: async (tokenId: string) => {
-    return requestJson<{ success: boolean; data: ReviewItem[] }>(`/reviews/${encodeURIComponent(tokenId)}`)
+    return requestJson<{ success: boolean; data: ReviewItem[] }>(
+      `/reviews/${encodeURIComponent(tokenId)}`,
+    )
   },
   saveReview: async (
     payload: Pick<ReviewItem, "nftId" | "tokenId" | "creator" | "rating" | "title" | "body">,
@@ -305,10 +320,13 @@ export const marketplaceApi = {
     })
   },
   markReviewHelpful: async (reviewId: string, token?: string | null) => {
-    return requestJson<{ success: boolean; data: ReviewItem }>(`/reviews/${encodeURIComponent(reviewId)}/helpful`, {
-      method: "PATCH",
-      headers: buildHeaders(token),
-    })
+    return requestJson<{ success: boolean; data: ReviewItem }>(
+      `/reviews/${encodeURIComponent(reviewId)}/helpful`,
+      {
+        method: "PATCH",
+        headers: buildHeaders(token),
+      },
+    )
   },
   fetchNotifications: async (token?: string | null) => {
     const response = await fetch(`${MARKETPLACE_BASE}/notifications`, {
@@ -322,10 +340,13 @@ export const marketplaceApi = {
     return data as { success: boolean; data: NotificationItem[]; unreadCount: number }
   },
   markNotificationRead: async (notificationId: string, token?: string | null) => {
-    return requestJson<{ success: boolean; data: NotificationItem }>(`/notifications/${encodeURIComponent(notificationId)}/read`, {
-      method: "PATCH",
-      headers: buildHeaders(token),
-    })
+    return requestJson<{ success: boolean; data: NotificationItem }>(
+      `/notifications/${encodeURIComponent(notificationId)}/read`,
+      {
+        method: "PATCH",
+        headers: buildHeaders(token),
+      },
+    )
   },
   markAllNotificationsRead: async (token?: string | null) => {
     return requestJson<{ success: boolean }>("/notifications/read-all", {
@@ -345,21 +366,27 @@ export const marketplaceApi = {
     return data as MarketplaceHistoryResponse
   },
   logView: async (tokenId: string, viewerAddress?: string) => {
-    return requestJson<{ success: boolean; data: { viewCount: number } }>(`/content/${encodeURIComponent(tokenId)}/view`, {
-      method: "POST",
-      body: JSON.stringify(viewerAddress ? { address: viewerAddress } : {}),
-    })
+    return requestJson<{ success: boolean; data: { viewCount: number } }>(
+      `/content/${encodeURIComponent(tokenId)}/view`,
+      {
+        method: "POST",
+        body: JSON.stringify(viewerAddress ? { address: viewerAddress } : {}),
+      },
+    )
   },
   logDownload: async (
     tokenId: string,
     payload: { licenseType?: LicenseType; downloadUrl?: string; fileName?: string },
     token?: string | null,
   ) => {
-    return requestJson<{ success: boolean; data: DownloadHistoryItem }>(`/content/${encodeURIComponent(tokenId)}/download`, {
-      method: "POST",
-      headers: buildHeaders(token),
-      body: JSON.stringify(payload),
-    })
+    return requestJson<{ success: boolean; data: DownloadHistoryItem }>(
+      `/content/${encodeURIComponent(tokenId)}/download`,
+      {
+        method: "POST",
+        headers: buildHeaders(token),
+        body: JSON.stringify(payload),
+      },
+    )
   },
   logShare: async (
     tokenId: string,

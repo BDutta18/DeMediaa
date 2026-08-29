@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express"
 
 export interface AppError extends Error {
-  status?: number;
-  code?: string;
+  status?: number
+  code?: string
 }
 
 /**
@@ -16,29 +16,25 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction,
 ): void => {
-  const status = err.status ?? 500;
-  const isDev = process.env.NODE_ENV === 'development';
+  const status = err.status ?? 500
+  const isDev = process.env.NODE_ENV === "development"
 
-  console.error(`[${new Date().toISOString()}] Error ${status}: ${err.message}`);
+  console.error(`[${new Date().toISOString()}] Error ${status}: ${err.message}`)
 
   res.status(status).json({
     success: false,
-    code: err.code ?? 'INTERNAL_ERROR',
-    message: err.message ?? 'Internal Server Error',
+    code: err.code ?? "INTERNAL_ERROR",
+    message: err.message ?? "Internal Server Error",
     ...(isDev && { stack: err.stack }),
-  });
-};
+  })
+}
 
 /**
  * Helper to create a well-typed AppError.
  */
-export const createError = (
-  message: string,
-  status = 500,
-  code?: string,
-): AppError => {
-  const err = new Error(message) as AppError;
-  err.status = status;
-  if (code) err.code = code;
-  return err;
-};
+export const createError = (message: string, status = 500, code?: string): AppError => {
+  const err = new Error(message) as AppError
+  err.status = status
+  if (code) err.code = code
+  return err
+}

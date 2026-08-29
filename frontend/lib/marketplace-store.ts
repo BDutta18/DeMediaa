@@ -71,7 +71,10 @@ export const useMarketplaceStore = create<MarketplaceStore>()(
         }),
       markAllNotificationsRead: () =>
         set((state) => ({
-          notifications: state.notifications.map((notification) => ({ ...notification, read: true })),
+          notifications: state.notifications.map((notification) => ({
+            ...notification,
+            read: true,
+          })),
           unreadNotifications: 0,
         })),
       addPurchase: (purchase) =>

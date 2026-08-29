@@ -23,9 +23,14 @@ export const mapWalletError = (error: unknown): { code: WalletErrorCode; message
 
   if (
     message.includes("wallet") &&
-    (message.includes("not found") || message.includes("not installed") || message.includes("unavailable"))
+    (message.includes("not found") ||
+      message.includes("not installed") ||
+      message.includes("unavailable"))
   ) {
-    return { code: "WALLET_NOT_FOUND", message: "Wallet not found. Install or enable a Stellar wallet." }
+    return {
+      code: "WALLET_NOT_FOUND",
+      message: "Wallet not found. Install or enable a Stellar wallet.",
+    }
   }
 
   if (
@@ -43,7 +48,10 @@ export const mapWalletError = (error: unknown): { code: WalletErrorCode; message
     message.includes("underfunded") ||
     message.includes("tx_insufficient_balance")
   ) {
-    return { code: "INSUFFICIENT_BALANCE", message: "Insufficient XLM balance for this transaction." }
+    return {
+      code: "INSUFFICIENT_BALANCE",
+      message: "Insufficient XLM balance for this transaction.",
+    }
   }
 
   if (message.includes("network") || message.includes("passphrase") || message.includes("switch")) {
@@ -58,7 +66,10 @@ export const mapWalletError = (error: unknown): { code: WalletErrorCode; message
     message.includes("service unavailable") ||
     message.includes("verification failed")
   ) {
-    return { code: "AUTH_SERVER_UNREACHABLE", message: "Authentication server is unreachable. Please try again in a few seconds." }
+    return {
+      code: "AUTH_SERVER_UNREACHABLE",
+      message: "Authentication server is unreachable. Please try again in a few seconds.",
+    }
   }
 
   return { code: "UNKNOWN", message: raw }

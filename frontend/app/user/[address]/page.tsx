@@ -54,7 +54,9 @@ export default function UserProfilePage() {
         const nftsData = await nftsResponse.json()
 
         if (nftsData.success) {
-          const userNFTs = nftsData.data.filter((nft: NFT & { owner: string }) => nft.owner === address)
+          const userNFTs = nftsData.data.filter(
+            (nft: NFT & { owner: string }) => nft.owner === address,
+          )
           setNfts(userNFTs)
         }
       } catch (error) {
@@ -70,7 +72,8 @@ export default function UserProfilePage() {
   if (loading) {
     return (
       <>
-        <ParallaxOrbBackground />        <main className="relative min-h-screen flex items-center justify-center">
+        <ParallaxOrbBackground />{" "}
+        <main className="relative min-h-screen flex items-center justify-center">
           <div className="text-center text-gray-400">
             <div className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-blue-500/20 border-t-blue-500 mb-4" />
             <p>Loading profile...</p>
@@ -83,7 +86,8 @@ export default function UserProfilePage() {
   if (!user) {
     return (
       <>
-        <ParallaxOrbBackground />        <main className="relative min-h-screen flex items-center justify-center">
+        <ParallaxOrbBackground />{" "}
+        <main className="relative min-h-screen flex items-center justify-center">
           <div className="text-center text-gray-400">
             <p>User not found</p>
           </div>
@@ -108,54 +112,59 @@ export default function UserProfilePage() {
               }}
             />
             <div className="p-8">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              {/* Avatar */}
-              <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-blue-500/30 shadow-2xl flex-shrink-0">
-                {user.avatar ? (
-                  <img
-                    src={resolveMediaUrl(user.avatar)}
-                    alt={user.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = "/placeholder.svg"
-                    }}
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-4xl font-bold text-blue-400">
-                    {user.name.charAt(0).toUpperCase()}
-                  </div>
-                )}
-              </div>
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                {/* Avatar */}
+                <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-blue-500/30 shadow-2xl flex-shrink-0">
+                  {user.avatar ? (
+                    <img
+                      src={resolveMediaUrl(user.avatar)}
+                      alt={user.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = "/placeholder.svg"
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-4xl font-bold text-blue-400">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                </div>
 
-              {/* Info */}
-              <div className="flex-1 text-center md:text-left">
-                <h1 className="text-4xl font-black text-white mb-2">{user.name}</h1>
-                <p className="text-sm uppercase tracking-[0.2em] mb-2" style={{ color: user.accentColor || "#3b82f6" }}>
-                  {user.showcaseTitle || "My Creation Vault"}
-                </p>
-                <p className="text-blue-400 font-mono text-sm mb-4">
-                  {user.address.slice(0, 10)}...{user.address.slice(-8)}
-                </p>
-                {user.bio && <p className="text-gray-400 mb-4">{user.bio}</p>}
+                {/* Info */}
+                <div className="flex-1 text-center md:text-left">
+                  <h1 className="text-4xl font-black text-white mb-2">{user.name}</h1>
+                  <p
+                    className="text-sm uppercase tracking-[0.2em] mb-2"
+                    style={{ color: user.accentColor || "#3b82f6" }}
+                  >
+                    {user.showcaseTitle || "My Creation Vault"}
+                  </p>
+                  <p className="text-blue-400 font-mono text-sm mb-4">
+                    {user.address.slice(0, 10)}...{user.address.slice(-8)}
+                  </p>
+                  {user.bio && <p className="text-gray-400 mb-4">{user.bio}</p>}
 
-                <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <Calendar className="w-4 h-4" />
-                    Joined {new Date(user.createdAt).toLocaleDateString()}
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <ExternalLink className="w-4 h-4" />
-                    {nfts.length} NFTs
+                  <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Calendar className="w-4 h-4" />
+                      Joined {new Date(user.createdAt).toLocaleDateString()}
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <ExternalLink className="w-4 h-4" />
+                      {nfts.length} NFTs
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
           </div>
 
           {/* NFTs Grid */}
           <div>
-            <h2 className="text-3xl font-black text-white mb-8">{user.showcaseTitle || "Created NFTs"}</h2>
+            <h2 className="text-3xl font-black text-white mb-8">
+              {user.showcaseTitle || "Created NFTs"}
+            </h2>
 
             {nfts.length === 0 ? (
               <div className="text-center text-gray-400 py-20">
@@ -185,7 +194,6 @@ export default function UserProfilePage() {
 
                       <h3 className="text-lg font-bold text-white mb-1 truncate">{nft.name}</h3>
                       <p className="text-sm text-gray-400 line-clamp-2 mb-2">{nft.description}</p>
-            
                     </div>
                   </div>
                 ))}
@@ -197,4 +205,3 @@ export default function UserProfilePage() {
     </>
   )
 }
-

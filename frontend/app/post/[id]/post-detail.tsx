@@ -73,7 +73,13 @@ const LICENSE_TYPES: LicenseType[] = [
     name: "Exclusive License",
     description: "Full exclusive rights to the content.",
     priceMultiplier: 10,
-    rights: ["Exclusive ownership", "Unlimited commercial use", "Full modification", "Sublicensing", "DRM removal"],
+    rights: [
+      "Exclusive ownership",
+      "Unlimited commercial use",
+      "Full modification",
+      "Sublicensing",
+      "DRM removal",
+    ],
   },
 ]
 
@@ -81,9 +87,13 @@ export default function PostDetail({ postId }: { postId: string }) {
   const [nft, setNft] = useState<NFT | null>(null)
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
-  const [purchaseStatus, setPurchaseStatus] = useState<"idle" | "pending" | "success" | "fail">("idle")
+  const [purchaseStatus, setPurchaseStatus] = useState<"idle" | "pending" | "success" | "fail">(
+    "idle",
+  )
   const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null)
-  const [downloadStatus, setDownloadStatus] = useState<"idle" | "pending" | "success" | "fail">("idle")
+  const [downloadStatus, setDownloadStatus] = useState<"idle" | "pending" | "success" | "fail">(
+    "idle",
+  )
   const [downloadMessage, setDownloadMessage] = useState<string | null>(null)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [selectedLicense, setSelectedLicense] = useState<string>("personal")
@@ -164,7 +174,10 @@ export default function PostDetail({ postId }: { postId: string }) {
         }
 
         if (nft?.tokenId) {
-          await marketplaceApi.logView(nft.tokenId, localStorage.getItem("demedia_address") || undefined)
+          await marketplaceApi.logView(
+            nft.tokenId,
+            localStorage.getItem("demedia_address") || undefined,
+          )
         }
       } catch (error) {
         console.error("Failed to load engagement state:", error)
@@ -294,7 +307,9 @@ export default function PostDetail({ postId }: { postId: string }) {
       )
 
       setReviews((current) => {
-        const next = current.filter((item) => item.reviewerAddress !== response.data.reviewerAddress)
+        const next = current.filter(
+          (item) => item.reviewerAddress !== response.data.reviewerAddress,
+        )
         return [response.data, ...next]
       })
       setReviewTitle("")
@@ -358,7 +373,9 @@ export default function PostDetail({ postId }: { postId: string }) {
   }, [nft])
 
   const isWishlisted = Boolean(nft && wishlistTokenIds.includes(nft.tokenId))
-  const isFollowingCreator = Boolean(creatorAddress && followedCreators.includes(creatorAddress.toLowerCase()))
+  const isFollowingCreator = Boolean(
+    creatorAddress && followedCreators.includes(creatorAddress.toLowerCase()),
+  )
 
   const buyNow = async () => {
     if (!nft) return
@@ -455,8 +472,12 @@ export default function PostDetail({ postId }: { postId: string }) {
     return (
       <main className="page-shell flex min-h-screen items-center justify-center py-16">
         <div className="panel-elevated w-full max-w-lg p-8 text-center">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold">Content not found</h1>
-          <p className="mt-2 text-sm text-muted-foreground">The requested item may have been removed or has an invalid URL.</p>
+          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold">
+            Content not found
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            The requested item may have been removed or has an invalid URL.
+          </p>
           <button
             onClick={() => router.push("/gallery")}
             className="mt-6 inline-flex items-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
@@ -502,7 +523,9 @@ export default function PostDetail({ postId }: { postId: string }) {
               disabled={purchaseStatus === "pending" || !nft.forSale || nft.price <= 0}
               className="inline-flex w-full items-center justify-center rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-70"
             >
-              {purchaseStatus === "pending" ? "Buying..." : `License ${licenseInfo.name.split(" ")[0]} - ${priceInXLM} XLM`}
+              {purchaseStatus === "pending"
+                ? "Buying..."
+                : `License ${licenseInfo.name.split(" ")[0]} - ${priceInXLM} XLM`}
             </button>
 
             <button
@@ -517,7 +540,11 @@ export default function PostDetail({ postId }: { postId: string }) {
               onClick={toggleWishlist}
               className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/80 bg-card px-4 py-3 text-sm font-semibold"
             >
-              {isWishlisted ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
+              {isWishlisted ? (
+                <BookmarkCheck className="h-4 w-4" />
+              ) : (
+                <Bookmark className="h-4 w-4" />
+              )}
               {isWishlisted ? "Saved" : "Save"}
             </button>
 
@@ -533,8 +560,12 @@ export default function PostDetail({ postId }: { postId: string }) {
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="rounded-2xl border border-border/70 bg-card p-4">
-              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Current price</p>
-              <p className="mt-2 text-2xl font-semibold">{nft.forSale && nft.price > 0 ? `${priceInXLM} XLM` : "Not listed"}</p>
+              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                Current price
+              </p>
+              <p className="mt-2 text-2xl font-semibold">
+                {nft.forSale && nft.price > 0 ? `${priceInXLM} XLM` : "Not listed"}
+              </p>
               {nft.forSale && nft.price > 0 && selectedLicense !== "personal" && (
                 <p className="mt-1 text-xs text-muted-foreground">
                   Base: {nft.price.toFixed(2)} x{licenseInfo.priceMultiplier}
@@ -542,7 +573,9 @@ export default function PostDetail({ postId }: { postId: string }) {
               )}
             </div>
             <div className="rounded-2xl border border-border/70 bg-card p-4">
-              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">License type</p>
+              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                License type
+              </p>
               <div className="mt-2 flex items-center gap-2">
                 <FileKey2 className="h-4 w-4 text-primary" />
                 <p className="text-lg font-semibold">{licenseInfo.name}</p>
@@ -551,7 +584,9 @@ export default function PostDetail({ postId }: { postId: string }) {
           </div>
 
           <div className="mt-3 rounded-2xl border border-border/70 bg-card p-4">
-            <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">Select license</p>
+            <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">
+              Select license
+            </p>
             <div className="grid gap-2">
               {LICENSE_TYPES.map((license) => (
                 <button
@@ -564,10 +599,16 @@ export default function PostDetail({ postId }: { postId: string }) {
                       : "border-border/60 hover:border-border/80"
                   }`}
                 >
-                  <div className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                    selectedLicense === license.id ? "border-primary bg-primary" : "border-muted-foreground/30"
-                  }`}>
-                    {selectedLicense === license.id && <div className="h-2 w-2 rounded-full bg-primary-foreground" />}
+                  <div
+                    className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${
+                      selectedLicense === license.id
+                        ? "border-primary bg-primary"
+                        : "border-muted-foreground/30"
+                    }`}
+                  >
+                    {selectedLicense === license.id && (
+                      <div className="h-2 w-2 rounded-full bg-primary-foreground" />
+                    )}
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-semibold">{license.name}</p>
@@ -584,10 +625,15 @@ export default function PostDetail({ postId }: { postId: string }) {
           </div>
 
           <div className="mt-3 rounded-2xl border border-border/70 bg-card p-4">
-            <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">Included rights</p>
+            <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">
+              Included rights
+            </p>
             <div className="flex flex-wrap gap-1.5">
               {licenseInfo.rights.map((right) => (
-                <span key={right} className="inline-flex items-center rounded-full border border-border/60 bg-muted/50 px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
+                <span
+                  key={right}
+                  className="inline-flex items-center rounded-full border border-border/60 bg-muted/50 px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
+                >
                   {right}
                 </span>
               ))}
@@ -611,11 +657,17 @@ export default function PostDetail({ postId }: { postId: string }) {
 
         <section className="space-y-5">
           <div className="panel p-4 sm:p-6">
-            <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Marketplace item</p>
+            <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+              Marketplace item
+            </p>
             <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
               <div className="min-w-0">
-                <h1 className="break-words font-[family-name:var(--font-display)] text-2xl font-semibold sm:text-3xl lg:text-4xl">{nft.name}</h1>
-                <p className="mt-2 break-words text-sm leading-relaxed text-muted-foreground sm:text-base">{nft.description}</p>
+                <h1 className="break-words font-[family-name:var(--font-display)] text-2xl font-semibold sm:text-3xl lg:text-4xl">
+                  {nft.name}
+                </h1>
+                <p className="mt-2 break-words text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  {nft.description}
+                </p>
               </div>
               <div className="w-fit rounded-full border border-emerald-500/35 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-300">
                 {nft.forSale ? "Available" : "Owned"}
@@ -677,17 +729,23 @@ export default function PostDetail({ postId }: { postId: string }) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="panel p-4 sm:p-5">
-              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Ownership type</p>
+              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                Ownership type
+              </p>
               <p className="mt-2 break-words text-sm font-medium">NFT Certificate</p>
             </div>
             <div className="panel p-4 sm:p-5">
-              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Current owner</p>
+              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                Current owner
+              </p>
               <p className="mt-2 break-all font-mono text-sm">{`${nft.owner.slice(0, 8)}...${nft.owner.slice(-6)}`}</p>
             </div>
           </div>
 
           <div className="panel p-4 sm:p-5">
-            <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Ownership certificate</p>
+            <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+              Ownership certificate
+            </p>
             <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href={ownershipProofUrl}
@@ -725,7 +783,9 @@ export default function PostDetail({ postId }: { postId: string }) {
           <div className="panel p-4 sm:p-5">
             <div className="flex items-center gap-2">
               <MessageSquare className="h-4 w-4 text-cyan-300" />
-              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Ratings & reviews</p>
+              <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                Ratings & reviews
+              </p>
             </div>
 
             <div className="mt-4 rounded-2xl border border-border/70 bg-card p-4">
@@ -779,13 +839,16 @@ export default function PostDetail({ postId }: { postId: string }) {
                 </div>
               ) : reviews.length ? (
                 reviews.map((review) => (
-                  <article key={review._id} className="rounded-2xl border border-border/70 bg-card p-4">
+                  <article
+                    key={review._id}
+                    className="rounded-2xl border border-border/70 bg-card p-4"
+                  >
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="text-sm font-semibold">{review.title}</p>
                         <p className="mt-1 text-xs text-muted-foreground">
-                          {review.reviewerAddress.slice(0, 6)}...{review.reviewerAddress.slice(-4)} ·{" "}
-                          {new Date(review.createdAt).toLocaleDateString()}
+                          {review.reviewerAddress.slice(0, 6)}...{review.reviewerAddress.slice(-4)}{" "}
+                          · {new Date(review.createdAt).toLocaleDateString()}
                         </p>
                       </div>
                       <div className="flex items-center gap-1 text-amber-300">
@@ -796,7 +859,9 @@ export default function PostDetail({ postId }: { postId: string }) {
                     </div>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">{review.body}</p>
                     <div className="mt-3 flex items-center justify-between gap-3">
-                      <p className="text-xs text-muted-foreground">{review.helpfulCount} found this helpful</p>
+                      <p className="text-xs text-muted-foreground">
+                        {review.helpfulCount} found this helpful
+                      </p>
                       <button
                         onClick={async () => {
                           try {
@@ -805,7 +870,9 @@ export default function PostDetail({ postId }: { postId: string }) {
                               current.map((item) => (item._id === review._id ? result.data : item)),
                             )
                           } catch (error) {
-                            setEngagementMessage(error instanceof Error ? error.message : "Could not mark helpful.")
+                            setEngagementMessage(
+                              error instanceof Error ? error.message : "Could not mark helpful.",
+                            )
                           }
                         }}
                         className="rounded-full border border-border/70 px-3 py-1 text-xs font-semibold hover:bg-secondary"
@@ -824,7 +891,9 @@ export default function PostDetail({ postId }: { postId: string }) {
           </div>
 
           {engagementMessage ? (
-            <p className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 text-sm text-cyan-100">{engagementMessage}</p>
+            <p className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 text-sm text-cyan-100">
+              {engagementMessage}
+            </p>
           ) : null}
 
           {downloadMessage ? (
@@ -849,13 +918,18 @@ export default function PostDetail({ postId }: { postId: string }) {
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/15">
               <Shield className="h-7 w-7 text-emerald-300" />
             </div>
-            <h2 className="mt-5 text-2xl font-semibold sm:text-3xl">Content Licensed Successfully</h2>
+            <h2 className="mt-5 text-2xl font-semibold sm:text-3xl">
+              Content Licensed Successfully
+            </h2>
             <p className="mt-3 text-sm leading-6 text-zinc-300">
               {licenseInfo.name} acquired. Ownership NFT generated and added to your collection.
             </p>
             <div className="mt-3 flex flex-wrap gap-1.5">
               {licenseInfo.rights.map((right) => (
-                <span key={right} className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[10px] font-medium text-zinc-300">
+                <span
+                  key={right}
+                  className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[10px] font-medium text-zinc-300"
+                >
                   {right}
                 </span>
               ))}

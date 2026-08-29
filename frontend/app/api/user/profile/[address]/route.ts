@@ -13,6 +13,9 @@ export async function GET(request: Request, context: { params: Promise<{ address
     const data = await response.json()
     return Response.json(data)
   } catch (error) {
-    return Response.json({ success: false, message: "Failed to fetch user profile" }, { status: 500 })
+    return Response.json(
+      { success: false, message: "Failed to fetch user profile" },
+      { status: 500 },
+    )
   }
 }

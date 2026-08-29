@@ -42,7 +42,9 @@ export default function WalletPage() {
     }
     setMsg("Funding testnet wallet...")
     try {
-      await fetch(`${networkConfig.friendbotUrl}/?addr=${encodeURIComponent(address.toUpperCase())}`)
+      await fetch(
+        `${networkConfig.friendbotUrl}/?addr=${encodeURIComponent(address.toUpperCase())}`,
+      )
       setMsg("Funding requested. Refresh in a few seconds.")
     } catch {
       setMsg("Failed to request funding.")
@@ -50,7 +52,9 @@ export default function WalletPage() {
   }
 
   const disconnect = async () => {
-    try { await disconnectWallet() } catch {}
+    try {
+      await disconnectWallet()
+    } catch {}
     logout()
   }
 
@@ -97,10 +101,18 @@ export default function WalletPage() {
           </div>
         </div>
         <div className="mt-6 flex flex-wrap gap-3">
-          <button onClick={fund} className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black">
+          <button
+            onClick={fund}
+            className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black"
+          >
             {networkConfig.isTestnet ? "Fund Testnet Wallet" : "Mainnet Funding Unavailable"}
           </button>
-          <button onClick={disconnect} className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white">Disconnect</button>
+          <button
+            onClick={disconnect}
+            className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white"
+          >
+            Disconnect
+          </button>
         </div>
         {msg ? <p className="mt-4 text-sm text-zinc-300">{msg}</p> : null}
       </section>

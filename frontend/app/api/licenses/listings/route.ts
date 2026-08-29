@@ -6,7 +6,9 @@ export async function GET(request: Request) {
     const backendUrl = getBackendApiBaseUrl()
     const params = url.searchParams.toString()
 
-    const backendResponse = await fetch(`${backendUrl}/api/licenses/listings${params ? `?${params}` : ""}`)
+    const backendResponse = await fetch(
+      `${backendUrl}/api/licenses/listings${params ? `?${params}` : ""}`,
+    )
 
     if (!backendResponse.ok) {
       const contentType = backendResponse.headers.get("content-type")
@@ -14,7 +16,10 @@ export async function GET(request: Request) {
         const errorJson = await backendResponse.json()
         return Response.json(errorJson, { status: backendResponse.status })
       }
-      return Response.json({ success: false, message: "Failed to fetch listings" }, { status: backendResponse.status })
+      return Response.json(
+        { success: false, message: "Failed to fetch listings" },
+        { status: backendResponse.status },
+      )
     }
 
     const data = await backendResponse.json()
@@ -52,7 +57,10 @@ export async function POST(request: Request) {
         const errorJson = await backendResponse.json()
         return Response.json(errorJson, { status: backendResponse.status })
       }
-      return Response.json({ success: false, message: "Failed to create listing" }, { status: backendResponse.status })
+      return Response.json(
+        { success: false, message: "Failed to create listing" },
+        { status: backendResponse.status },
+      )
     }
 
     const data = await backendResponse.json()

@@ -96,7 +96,9 @@ export default function FuturisticNavbar() {
             {isAuthenticated ? (
               <>
                 <div className="inline-flex items-center rounded-xl border border-border/70 bg-card px-3 py-2 text-xs font-mono text-muted-foreground">
-                  <span>{address?.slice(0, 6)}...{address?.slice(-4)}</span>
+                  <span>
+                    {address?.slice(0, 6)}...{address?.slice(-4)}
+                  </span>
                 </div>
                 <button
                   onClick={logout}
@@ -132,12 +134,16 @@ export default function FuturisticNavbar() {
         <div className="border-b border-border/70 bg-background/95 px-4 py-4 backdrop-blur lg:hidden">
           <div className="page-shell grid gap-2">
             <div className="mb-2 flex items-center justify-between">
-              <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Menu</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                Menu
+              </span>
               <NetworkToggle />
             </div>
             {isAuthenticated && (
               <div className="mb-2 flex items-center justify-between rounded-xl border border-border/70 bg-card px-3 py-2 text-xs font-mono text-muted-foreground">
-                <span>{address?.slice(0, 6)}...{address?.slice(-4)}</span>
+                <span>
+                  {address?.slice(0, 6)}...{address?.slice(-4)}
+                </span>
               </div>
             )}
             {navItems.map((item) => (

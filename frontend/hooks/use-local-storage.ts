@@ -29,14 +29,11 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
     }
   }, [key, storedValue])
 
-  const setValue = useCallback(
-    (value: T | ((prev: T) => T)) => {
-      setStoredValue((prev) =>
-        typeof value === "function" ? (value as (prev: T) => T)(prev) : value,
-      )
-    },
-    [],
-  )
+  const setValue = useCallback((value: T | ((prev: T) => T)) => {
+    setStoredValue((prev) =>
+      typeof value === "function" ? (value as (prev: T) => T)(prev) : value,
+    )
+  }, [])
 
   const removeValue = useCallback(() => {
     if (typeof window !== "undefined") {

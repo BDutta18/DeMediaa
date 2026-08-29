@@ -4,16 +4,38 @@ import { useEffect, useState } from "react"
 import { AlertCircle, Check, ExternalLink, Loader2, ShieldCheck, Wallet, Zap } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/lib/auth-context"
-import { connectWallet, getSupportedWallets, getWalletNetwork, isFreighterInstalled, signWalletMessage } from "@/lib/wallet-kit"
+import {
+  connectWallet,
+  getSupportedWallets,
+  getWalletNetwork,
+  isFreighterInstalled,
+  signWalletMessage,
+} from "@/lib/wallet-kit"
 import { mapWalletError } from "@/lib/errors"
 import { getNetworkConfig, useNetworkStore } from "@/lib/network-store"
 import { BrandLockup } from "@/components/brand-lockup"
 
-type AuthStatus = "detect" | "connect" | "connecting" | "sign" | "awaiting-signature" | "verifying" | "success" | "error"
+type AuthStatus =
+  | "detect"
+  | "connect"
+  | "connecting"
+  | "sign"
+  | "awaiting-signature"
+  | "verifying"
+  | "success"
+  | "error"
 
 const authHighlights = [
-  { icon: ShieldCheck, title: "Gasless signature", text: "Authenticate without sending a transaction." },
-  { icon: Zap, title: "Instant workspace", text: "Jump into publishing, wallet, and gallery tools." },
+  {
+    icon: ShieldCheck,
+    title: "Gasless signature",
+    text: "Authenticate without sending a transaction.",
+  },
+  {
+    icon: Zap,
+    title: "Instant workspace",
+    text: "Jump into publishing, wallet, and gallery tools.",
+  },
 ]
 
 function toBase64(bytes: Uint8Array) {
@@ -35,7 +57,8 @@ function decodeHex(value: string) {
   const cleaned = value.trim().toLowerCase().replace(/^0x/, "")
   if (!/^[0-9a-f]+$/.test(cleaned) || cleaned.length % 2 !== 0) return null
   const bytes = new Uint8Array(cleaned.length / 2)
-  for (let i = 0; i < cleaned.length; i += 2) bytes[i / 2] = Number.parseInt(cleaned.slice(i, i + 2), 16)
+  for (let i = 0; i < cleaned.length; i += 2)
+    bytes[i / 2] = Number.parseInt(cleaned.slice(i, i + 2), 16)
   return bytes
 }
 
@@ -50,10 +73,22 @@ function normalizeSignature(value: string) {
 
 const stepLabels: Record<AuthStatus, { title: string; desc: string }> = {
   detect: { title: "Wallet required", desc: "Install Freighter to use your Stellar identity." },
-  connect: { title: "Connect to continue", desc: "DeMedia uses a one-time wallet signature. No password is stored." },
-  connecting: { title: "Connecting wallet", desc: "Opening Freighter to connect your Stellar account." },
-  sign: { title: "Confirm ownership", desc: "Review the connected address, then sign a gasless message." },
-  "awaiting-signature": { title: "Awaiting signature", desc: "Check Freighter to sign the verification message." },
+  connect: {
+    title: "Connect to continue",
+    desc: "DeMedia uses a one-time wallet signature. No password is stored.",
+  },
+  connecting: {
+    title: "Connecting wallet",
+    desc: "Opening Freighter to connect your Stellar account.",
+  },
+  sign: {
+    title: "Confirm ownership",
+    desc: "Review the connected address, then sign a gasless message.",
+  },
+  "awaiting-signature": {
+    title: "Awaiting signature",
+    desc: "Check Freighter to sign the verification message.",
+  },
   verifying: { title: "Verifying signature", desc: "Confirming your identity on the network." },
   success: { title: "You're signed in", desc: "Redirecting to your workspace..." },
   error: { title: "Connection failed", desc: "Please try again." },
@@ -73,10 +108,15 @@ export default function AuthPage() {
   const [message, setMessage] = useState("")
 
   useEffect(() => {
-    setIsSecureOrigin(window.location.protocol === "https:" || window.location.hostname === "localhost")
+    setIsSecureOrigin(
+      window.location.protocol === "https:" || window.location.hostname === "localhost",
+    )
     ;(async () => {
       try {
-        const [wallets, freighter] = await Promise.all([getSupportedWallets(), isFreighterInstalled()])
+        const [wallets, freighter] = await Promise.all([
+          getSupportedWallets(),
+          isFreighterInstalled(),
+        ])
         const available = wallets.filter((wallet) => wallet.isAvailable).length
         setWalletCount(Math.max(available, freighter ? 1 : 0))
         setHasFreighter(freighter)
@@ -119,7 +159,8 @@ export default function AuthPage() {
       const timestamp = new Date().toISOString()
       const signedMessage = `Login verification at ${timestamp}`
       const response = await signWalletMessage(signedMessage, address ?? undefined)
-      const record = response && typeof response === "object" ? (response as Record<string, unknown>) : {}
+      const record =
+        response && typeof response === "object" ? (response as Record<string, unknown>) : {}
       const resolvedAddress =
         (typeof record.signerAddress === "string" && record.signerAddress) ||
         (typeof record.address === "string" && record.address) ||
@@ -129,7 +170,8 @@ export default function AuthPage() {
         (typeof record.signature === "string" && record.signature) ||
         (typeof response === "string" ? response : "")
 
-      if (!resolvedAddress || !resolvedSignature) throw new Error("Wallet returned an invalid signature.")
+      if (!resolvedAddress || !resolvedSignature)
+        throw new Error("Wallet returned an invalid signature.")
 
       setStatus("verifying")
       const payload = {
@@ -145,7 +187,8 @@ export default function AuthPage() {
         body: JSON.stringify(payload),
       })
       const data = await res.json().catch(() => ({}))
-      if (!res.ok || !data.token) throw new Error(data.message || data.error || "Verification failed.")
+      if (!res.ok || !data.token)
+        throw new Error(data.message || data.error || "Verification failed.")
 
       login(data.address, data.token)
       setStatus("success")
@@ -154,7 +197,10 @@ export default function AuthPage() {
       const profileData = profileRes ? await profileRes.json().catch(() => ({})) : {}
       const profile = profileData?.user
       const hasProfile = Boolean(
-        profileRes?.ok && profileData?.success && profile && (profile.name || profile.avatar || profile.bio || profile.banner || profile.showcaseTitle),
+        profileRes?.ok &&
+        profileData?.success &&
+        profile &&
+        (profile.name || profile.avatar || profile.bio || profile.banner || profile.showcaseTitle),
       )
       router.push(hasProfile ? "/dashboard" : "/profile?setup=1")
     } catch (error) {
@@ -167,11 +213,15 @@ export default function AuthPage() {
   const step = stepLabels[status]
 
   const buttonLabel =
-    status === "detect" ? "Install Freighter" :
-    status === "sign" ? "Sign Message" :
-    status === "success" ? "Opening Dashboard" :
-    status === "error" ? "Try Again" :
-    "Connect Wallet"
+    status === "detect"
+      ? "Install Freighter"
+      : status === "sign"
+        ? "Sign Message"
+        : status === "success"
+          ? "Opening Dashboard"
+          : status === "error"
+            ? "Try Again"
+            : "Connect Wallet"
 
   const handleButtonClick = () => {
     if (status === "detect") window.open("https://freighter.app/", "_blank")
@@ -191,8 +241,9 @@ export default function AuthPage() {
 
           {!isSecureOrigin ? (
             <div className="mt-5 rounded-2xl border border-amber-400/30 bg-amber-500/10 p-4 text-sm leading-6 text-amber-100">
-              Freighter only connects from an HTTPS site or localhost. Open this app on `https://` or `localhost`, or enable insecure domains in Freighter
-              under Settings &gt; Security &gt; Advanced settings.
+              Freighter only connects from an HTTPS site or localhost. Open this app on `https://`
+              or `localhost`, or enable insecure domains in Freighter under Settings &gt; Security
+              &gt; Advanced settings.
             </div>
           ) : null}
 
@@ -200,12 +251,16 @@ export default function AuthPage() {
             Wallet login for verified creators.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-300">
-            Enter the creator workspace with a private Stellar signature. No password, no custodial account, just ownership you can prove.
+            Enter the creator workspace with a private Stellar signature. No password, no custodial
+            account, just ownership you can prove.
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             {authHighlights.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 backdrop-blur">
+              <div
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 backdrop-blur"
+              >
                 <item.icon className="h-5 w-5 text-cyan-200" />
                 <p className="mt-3 font-semibold">{item.title}</p>
                 <p className="mt-1 text-sm leading-6 text-zinc-400">{item.text}</p>
@@ -240,12 +295,16 @@ export default function AuthPage() {
             {address && status === "sign" ? (
               <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.04] p-3">
                 <p className="text-xs text-zinc-500">Connected address</p>
-                <p className="mt-1 font-mono text-sm text-cyan-200">{address.slice(0, 8)}...{address.slice(-6)}</p>
+                <p className="mt-1 font-mono text-sm text-cyan-200">
+                  {address.slice(0, 8)}...{address.slice(-6)}
+                </p>
               </div>
             ) : null}
 
             {message ? (
-              <p className="mt-4 rounded-2xl border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-100">{message}</p>
+              <p className="mt-4 rounded-2xl border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-100">
+                {message}
+              </p>
             ) : null}
 
             <button

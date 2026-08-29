@@ -24,9 +24,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
               An unexpected error occurred. Our team has been notified.
             </p>
             {error?.digest && (
-              <p className="text-xs text-muted-foreground font-mono">
-                Error ID: {error.digest}
-              </p>
+              <p className="text-xs text-muted-foreground font-mono">Error ID: {error.digest}</p>
             )}
             <div className="flex gap-4 justify-center flex-wrap">
               <button

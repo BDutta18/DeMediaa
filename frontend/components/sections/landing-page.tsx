@@ -47,7 +47,10 @@ function Hero() {
         style={{ scale }}
         className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,22,0.72)_0%,rgba(5,8,22,0.82)_58%,#050816_100%)]"
       />
-      <MotionDiv style={{ opacity }} className="absolute inset-0 bg-[linear-gradient(180deg,transparent_60%,#050816_100%)]" />
+      <MotionDiv
+        style={{ opacity }}
+        className="absolute inset-0 bg-[linear-gradient(180deg,transparent_60%,#050816_100%)]"
+      />
       <div className="absolute left-0 top-1 z-20 sm:left-2 sm:top-3">
         <BrandLockup />
       </div>
@@ -60,7 +63,8 @@ function Hero() {
           </span>
         </h1>
         <p className="mt-5 max-w-2xl text-base text-zinc-300 sm:text-lg">
-          A cinematic, creator-first operating system for publishing, proving, monetizing, and governing digital media.
+          A cinematic, creator-first operating system for publishing, proving, monetizing, and
+          governing digital media.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <GlowButton href="/auth">Launch App</GlowButton>
@@ -83,15 +87,32 @@ function StickyStory() {
             Production-grade trust, told in motion.
           </h2>
           <p className="mt-5 max-w-xl text-zinc-300">
-            Apple-style narrative flow meets Web3 integrity. Every interaction reveals where content comes from, who owns it, and how value moves.
+            Apple-style narrative flow meets Web3 integrity. Every interaction reveals where content
+            comes from, who owns it, and how value moves.
           </p>
         </div>
         <div className="space-y-5">
           {[
-            ["01", "Upload & Fingerprint", "Content enters with metadata verification and immutable hashing."],
-            ["02", "Mint Ownership", "Creator rights become programmable assets with transparent custody."],
-            ["03", "Monetize Flows", "Licensing, royalties, and subscriptions stream through policy rails."],
-            ["04", "Govern with Community", "Proposals, voting, treasury execution, and accountable upgrades."],
+            [
+              "01",
+              "Upload & Fingerprint",
+              "Content enters with metadata verification and immutable hashing.",
+            ],
+            [
+              "02",
+              "Mint Ownership",
+              "Creator rights become programmable assets with transparent custody.",
+            ],
+            [
+              "03",
+              "Monetize Flows",
+              "Licensing, royalties, and subscriptions stream through policy rails.",
+            ],
+            [
+              "04",
+              "Govern with Community",
+              "Proposals, voting, treasury execution, and accountable upgrades.",
+            ],
           ].map(([id, title, text], i) => (
             <MotionDiv
               key={id}
@@ -116,9 +137,12 @@ function StickyStory() {
 function VisualGallery() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-24">
-      <h2 className="text-center text-4xl font-semibold sm:text-6xl">The Interface of Digital Ownership</h2>
+      <h2 className="text-center text-4xl font-semibold sm:text-6xl">
+        The Interface of Digital Ownership
+      </h2>
       <p className="mx-auto mt-5 max-w-2xl text-center text-zinc-300">
-        Rich, layered visual language designed for creators, DAOs, media organizations, and protocol-native teams.
+        Rich, layered visual language designed for creators, DAOs, media organizations, and
+        protocol-native teams.
       </p>
       <div className="mt-14 grid gap-4 sm:grid-cols-2">
         {realPhotography.map((photo, i) => (
@@ -176,7 +200,9 @@ function FinalCta() {
       <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-[linear-gradient(120deg,rgba(79,140,255,0.2),rgba(123,97,255,0.18),rgba(0,212,255,0.2))] p-10 sm:p-16">
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl" />
         <div className="relative z-10 text-center">
-          <h2 className="text-4xl font-semibold sm:text-6xl">Take Back Ownership of Digital Media</h2>
+          <h2 className="text-4xl font-semibold sm:text-6xl">
+            Take Back Ownership of Digital Media
+          </h2>
           <p className="mx-auto mt-5 max-w-2xl text-zinc-200">
             Built for teams who care about product quality and protocol truth.
           </p>

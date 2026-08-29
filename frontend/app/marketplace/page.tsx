@@ -2,10 +2,23 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { ChevronRight, Grid3X3, Heart, List, Search, Shield, Sparkles, TrendingUp } from "lucide-react"
+import {
+  ChevronRight,
+  Grid3X3,
+  Heart,
+  List,
+  Search,
+  Shield,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react"
 import { FeatureShell } from "@/components/feature-shell"
 import { Skeleton } from "@/components/ui/skeleton"
-import { marketplaceApi, type MarketplaceListing, type MarketplaceSortMode } from "@/lib/marketplace"
+import {
+  marketplaceApi,
+  type MarketplaceListing,
+  type MarketplaceSortMode,
+} from "@/lib/marketplace"
 import { useMarketplaceStore } from "@/lib/marketplace-store"
 import { resolveMediaUrl } from "@/lib/media"
 import { useAuth } from "@/lib/auth-context"
@@ -124,7 +137,10 @@ export default function MarketplacePage() {
             Reset filters
           </button>
           {isAuthenticated ? (
-            <Link href="/dashboard" className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black">
+            <Link
+              href="/dashboard"
+              className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black"
+            >
               Open dashboard
             </Link>
           ) : null}
@@ -196,9 +212,15 @@ export default function MarketplacePage() {
               </div>
             </div>
             <div className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-400">
-              <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1.5">Popularity-first ranking</span>
-              <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1.5">Wishlist and revisit later</span>
-              <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1.5">Responsive cards and skeletons</span>
+              <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1.5">
+                Popularity-first ranking
+              </span>
+              <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1.5">
+                Wishlist and revisit later
+              </span>
+              <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1.5">
+                Responsive cards and skeletons
+              </span>
             </div>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <label className="grid gap-2">
@@ -274,7 +296,9 @@ export default function MarketplacePage() {
                         <div className="flex items-start justify-between gap-3">
                           <div>
                             <h3 className="text-lg font-semibold text-white">{listing.name}</h3>
-                            <p className="mt-1 line-clamp-2 text-sm leading-6 text-zinc-400">{listing.description}</p>
+                            <p className="mt-1 line-clamp-2 text-sm leading-6 text-zinc-400">
+                              {listing.description}
+                            </p>
                           </div>
                           {listing.totalLicensesSold > 0 ? (
                             <Shield className="h-5 w-5 text-emerald-300" />
@@ -285,15 +309,21 @@ export default function MarketplacePage() {
                         <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
                           <div className="rounded-2xl border border-white/10 bg-black/25 px-3 py-2">
                             <p className="text-zinc-500">Personal</p>
-                            <p className="mt-1 font-semibold text-cyan-200">{formatXlm(listing.licenseTypes.personal)}</p>
+                            <p className="mt-1 font-semibold text-cyan-200">
+                              {formatXlm(listing.licenseTypes.personal)}
+                            </p>
                           </div>
                           <div className="rounded-2xl border border-white/10 bg-black/25 px-3 py-2">
                             <p className="text-zinc-500">Rating</p>
-                            <p className="mt-1 font-semibold text-amber-200">{listing.averageRating.toFixed(1)}</p>
+                            <p className="mt-1 font-semibold text-amber-200">
+                              {listing.averageRating.toFixed(1)}
+                            </p>
                           </div>
                           <div className="rounded-2xl border border-white/10 bg-black/25 px-3 py-2">
                             <p className="text-zinc-500">Score</p>
-                            <p className="mt-1 font-semibold text-violet-200">{listing.popularityScore}</p>
+                            <p className="mt-1 font-semibold text-violet-200">
+                              {listing.popularityScore}
+                            </p>
                           </div>
                         </div>
                         <div className="mt-4 flex items-center justify-between text-xs text-zinc-500">
@@ -333,8 +363,12 @@ export default function MarketplacePage() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <h3 className="truncate text-lg font-semibold text-white">{listing.name}</h3>
-                            <p className="mt-1 line-clamp-2 text-sm text-zinc-400">{listing.description}</p>
+                            <h3 className="truncate text-lg font-semibold text-white">
+                              {listing.name}
+                            </h3>
+                            <p className="mt-1 line-clamp-2 text-sm text-zinc-400">
+                              {listing.description}
+                            </p>
                           </div>
                           <button
                             onClick={() => handleWishlistToggle(listing)}
@@ -363,7 +397,9 @@ export default function MarketplacePage() {
           ) : (
             <div className="rounded-3xl border border-dashed border-white/10 bg-white/[0.04] p-10 text-center">
               <Search className="mx-auto h-10 w-10 text-zinc-600" />
-              <h3 className="mt-4 text-xl font-semibold text-white">No listings match your filters.</h3>
+              <h3 className="mt-4 text-xl font-semibold text-white">
+                No listings match your filters.
+              </h3>
               <p className="mt-2 text-sm leading-6 text-zinc-400">
                 Try a wider category, lower the price band, or switch back to trending content.
               </p>
@@ -413,11 +449,14 @@ export default function MarketplacePage() {
               <h2 className="text-xl font-semibold">Saved items</h2>
             </div>
             <p className="mt-2 text-sm leading-6 text-zinc-400">
-              Revisit your wishlist and review what is already saved for licensing or later discovery.
+              Revisit your wishlist and review what is already saved for licensing or later
+              discovery.
             </p>
             <div className="mt-4 space-y-2 text-sm text-zinc-300">
               {savedCount ? (
-                <p>{savedCount} saved listing{savedCount === 1 ? "" : "s"} in your current results.</p>
+                <p>
+                  {savedCount} saved listing{savedCount === 1 ? "" : "s"} in your current results.
+                </p>
               ) : (
                 <p>No items saved from the current browse set yet.</p>
               )}

@@ -3,8 +3,7 @@ const PROD_BACKEND_URL = "https://demedia.onrender.com"
 
 export const getBackendApiBaseUrl = (): string => {
   const configured =
-    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() ||
-    process.env.BACKEND_API_BASE_URL?.trim()
+    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || process.env.BACKEND_API_BASE_URL?.trim()
 
   if (!configured) {
     return process.env.NODE_ENV === "production" ? PROD_BACKEND_URL : LOCAL_BACKEND_URL
@@ -15,8 +14,7 @@ export const getBackendApiBaseUrl = (): string => {
 
 export const getBackendApiBaseUrlCandidates = (): string[] => {
   const explicitConfigured =
-    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() ||
-    process.env.BACKEND_API_BASE_URL?.trim()
+    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || process.env.BACKEND_API_BASE_URL?.trim()
 
   if (explicitConfigured) {
     return [explicitConfigured.replace(/\/$/, "")]
@@ -30,7 +28,5 @@ export const getBackendApiBaseUrlCandidates = (): string[] => {
   if (normalizedConfigured === local) return [local, prod]
   if (normalizedConfigured === prod) return [prod, local]
 
-  return [normalizedConfigured, local, prod].filter(
-    (url, index, arr) => arr.indexOf(url) === index,
-  )
+  return [normalizedConfigured, local, prod].filter((url, index, arr) => arr.indexOf(url) === index)
 }

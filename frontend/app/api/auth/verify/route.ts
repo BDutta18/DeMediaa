@@ -28,7 +28,10 @@ export async function POST(request: NextRequest) {
             ? await response.json()
             : await response.text()
 
-          console.error(`Backend verification failed (${response.status}) on ${backendUrl}:`, errorData)
+          console.error(
+            `Backend verification failed (${response.status}) on ${backendUrl}:`,
+            errorData,
+          )
 
           if (response.status >= 400 && response.status < 500) {
             return NextResponse.json(
@@ -70,7 +73,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Verification proxy error:", error)
     return NextResponse.json(
-      { message: "Verification failed", error: error instanceof Error ? error.message : "Unknown error" },
+      {
+        message: "Verification failed",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 },
     )
   }

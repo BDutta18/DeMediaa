@@ -1,32 +1,32 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose"
 
 export interface IListing extends Document {
-  nftId: string;
-  tokenId: string;
-  creator: string;
-  contentHash: string;
-  name: string;
-  description: string;
-  category?: string;
-  tags?: string[];
-  imageURL: string;
+  nftId: string
+  tokenId: string
+  creator: string
+  contentHash: string
+  name: string
+  description: string
+  category?: string
+  tags?: string[]
+  imageURL: string
   licenseTypes: {
-    personal: number;
-    commercial: number;
-    exclusive: number;
-  };
-  royaltyBps: number;
-  active: boolean;
-  totalLicensesSold: number;
-  totalRevenue: number;
-  viewCount: number;
-  downloadCount: number;
-  averageRating: number;
-  ratingCount: number;
-  popularityScore: number;
-  registryTxHash?: string;
-  createdAt: Date;
-  updatedAt: Date;
+    personal: number
+    commercial: number
+    exclusive: number
+  }
+  royaltyBps: number
+  active: boolean
+  totalLicensesSold: number
+  totalRevenue: number
+  viewCount: number
+  downloadCount: number
+  averageRating: number
+  ratingCount: number
+  popularityScore: number
+  registryTxHash?: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 const listingSchema = new Schema<IListing>(
@@ -56,10 +56,10 @@ const listingSchema = new Schema<IListing>(
     popularityScore: { type: Number, default: 0, index: true },
     registryTxHash: { type: String },
   },
-  { timestamps: true }
-);
+  { timestamps: true },
+)
 
-listingSchema.index({ active: 1, createdAt: -1 });
-listingSchema.index({ creator: 1, active: 1 });
+listingSchema.index({ active: 1, createdAt: -1 })
+listingSchema.index({ creator: 1, active: 1 })
 
-export default mongoose.model<IListing>("Listing", listingSchema);
+export default mongoose.model<IListing>("Listing", listingSchema)

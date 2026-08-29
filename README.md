@@ -23,12 +23,12 @@
 
 ## Screenshots
 
-| Homepage | Gallery |
-|:---:|:---:|
+|                                                         Homepage                                                         |                                                         Gallery                                                         |
+| :----------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: |
 | <img src="https://github.com/user-attachments/assets/cf7a13f0-7af3-43af-aee9-4aa302d1c140" alt="Homepage" width="400" /> | <img src="https://github.com/user-attachments/assets/9490cba9-d328-479e-8270-cb3aed37b51f" alt="Gallery" width="400" /> |
 
-| Dashboard | Mobile View |
-|:---:|:---:|
+|                                                         Dashboard                                                         |                                                         Mobile View                                                         |
+| :-----------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: |
 | <img src="https://github.com/user-attachments/assets/886fea58-ba26-431b-ac04-dcea322c41bf" alt="Dashboard" width="400" /> | <img src="https://github.com/user-attachments/assets/151ed43d-20dc-4b57-912b-0c3f71430f3f" alt="Mobile View" width="200" /> |
 
 ---
@@ -51,23 +51,23 @@ DeMedia is a decentralized media content platform built on Stellar with Soroban 
 
 ## Core Architecture
 
-| Layer | Technology |
-| :--- | :--- |
-| **Frontend** | Next.js 16 + TypeScript (`frontend/`) |
-| **Backend** | Express + TypeScript (`backend/`) |
-| **Smart Contracts** | Soroban Rust (`contracts/`) |
-| **Database** | MongoDB |
-| **Storage** | Pinata / IPFS |
-| **Wallet** | Freighter + StellarWalletsKit |
-| **Hosting** | Vercel (frontend) + Render (backend) |
+| Layer               | Technology                            |
+| :------------------ | :------------------------------------ |
+| **Frontend**        | Next.js 16 + TypeScript (`frontend/`) |
+| **Backend**         | Express + TypeScript (`backend/`)     |
+| **Smart Contracts** | Soroban Rust (`contracts/`)           |
+| **Database**        | MongoDB                               |
+| **Storage**         | Pinata / IPFS                         |
+| **Wallet**          | Freighter + StellarWalletsKit         |
+| **Hosting**         | Vercel (frontend) + Render (backend)  |
 
 ## CI/CD Pipeline
 
-| Badge | Status |
-| :--- | :--- |
-| **CI Workflow** | [![CI](https://github.com/BDutta18/DeMedia/actions/workflows/ci.yml/badge.svg)](https://github.com/BDutta18/DeMedia/actions/workflows/ci.yml) |
-| **Backend Tests** | [![Backend Tests](https://img.shields.io/badge/Backend%20Tests-3%20passing-brightgreen)](https://github.com/BDutta18/DeMedia/actions/workflows/ci.yml) |
-| **Frontend Build** | [![Frontend Build](https://img.shields.io/badge/Frontend%20Build-passing-brightgreen)](https://github.com/BDutta18/DeMedia/actions/workflows/ci.yml) |
+| Badge              | Status                                                                                                                                                 |
+| :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CI Workflow**    | [![CI](https://github.com/BDutta18/DeMedia/actions/workflows/ci.yml/badge.svg)](https://github.com/BDutta18/DeMedia/actions/workflows/ci.yml)          |
+| **Backend Tests**  | [![Backend Tests](https://img.shields.io/badge/Backend%20Tests-3%20passing-brightgreen)](https://github.com/BDutta18/DeMedia/actions/workflows/ci.yml) |
+| **Frontend Build** | [![Frontend Build](https://img.shields.io/badge/Frontend%20Build-passing-brightgreen)](https://github.com/BDutta18/DeMedia/actions/workflows/ci.yml)   |
 
 ## Security Checklist
 
@@ -86,8 +86,8 @@ DeMedia is a decentralized media content platform built on Stellar with Soroban 
 
 ### Mainnet
 
-| Contract | Address |
-| :--- | :--- |
+| Contract            | Address                                                    |
+| :------------------ | :--------------------------------------------------------- |
 | **ContentRegistry** | `CCHCKK24M5DPUCS3AMLS3SC5DFU42L6YXLN7PH5NFQ7EX63COGJSBIRM` |
 
 **Deployment Tx:** [`902b83a2c792d4b48ce53d710cc54d245ce49b4c3adfb67bdff0ff14a8f2a5e0`](https://stellar.expert/explorer/public/tx/902b83a2c792d4b48ce53d710cc54d245ce49b4c3adfb67bdff0ff14a8f2a5e0)
@@ -146,44 +146,45 @@ Feedback source: [Google Sheets](https://docs.google.com/spreadsheets/d/1NCXxc8W
 
 ### Implemented Changes
 
-| # | Feedback | Status | Commit |
-| :--- | :--- | :--- | :--- |
-| 1 | Search should be top-priority in navigation | Done | [`0729e62`](https://github.com/BDutta18/DeMedia/commit/0729e62) |
-| 2 | Add stronger NFT sorting | Done | [`790064e`](https://github.com/BDutta18/DeMedia/commit/790064e) |
-| 3 | Document preview / gallery preview issues | In Progress | [`785c6f0`](https://github.com/BDutta18/DeMedia/commit/785c6f0) |
-| 4 | Upload lag while handling documents | Planned | — |
-| 5 | Profile picture not showing consistently | Planned | — |
-| 6 | UI should be improved | Done | [`789fce7`](https://github.com/BDutta18/DeMedia/commit/789fce7) |
-| 7 | Buying NFTs as a V2 feature | Planned (V2) | — |
-| 8 | General positive feedback | Logged | — |
+| #   | Feedback                                    | Status       | Commit                                                          |
+| :-- | :------------------------------------------ | :----------- | :-------------------------------------------------------------- |
+| 1   | Search should be top-priority in navigation | Done         | [`0729e62`](https://github.com/BDutta18/DeMedia/commit/0729e62) |
+| 2   | Add stronger NFT sorting                    | Done         | [`790064e`](https://github.com/BDutta18/DeMedia/commit/790064e) |
+| 3   | Document preview / gallery preview issues   | In Progress  | [`785c6f0`](https://github.com/BDutta18/DeMedia/commit/785c6f0) |
+| 4   | Upload lag while handling documents         | Planned      | —                                                               |
+| 5   | Profile picture not showing consistently    | Planned      | —                                                               |
+| 6   | UI should be improved                       | Done         | [`789fce7`](https://github.com/BDutta18/DeMedia/commit/789fce7) |
+| 7   | Buying NFTs as a V2 feature                 | Planned (V2) | —                                                               |
+| 8   | General positive feedback                   | Logged       | —                                                               |
 
 ## API Endpoints
 
 ### Public
 
-| Endpoint | Description |
-| :--- | :--- |
-| `GET /api/health` | Metric dashboard & health check |
-| `GET /api/tx/status/:txHash` | Transaction status lookup |
-| `GET /api/tx/events/stream` | Realtime transaction stream (SSE) |
+| Endpoint                     | Description                       |
+| :--------------------------- | :-------------------------------- |
+| `GET /api/health`            | Metric dashboard & health check   |
+| `GET /api/tx/status/:txHash` | Transaction status lookup         |
+| `GET /api/tx/events/stream`  | Realtime transaction stream (SSE) |
 
 ### Auth
 
-| Endpoint | Description |
-| :--- | :--- |
-| `POST /api/wallet/verify` | Wallet signature verification |
-| `GET /api/auth/verify` | JWT verification (Next.js proxy) |
+| Endpoint                  | Description                      |
+| :------------------------ | :------------------------------- |
+| `POST /api/wallet/verify` | Wallet signature verification    |
+| `GET /api/auth/verify`    | JWT verification (Next.js proxy) |
 
 ### NFTs
 
-| Endpoint | Description |
-| :--- | :--- |
-| `GET /api/upload/find` | All indexed NFTs feed |
-| `GET /api/upload/my-nfts` | Current user NFTs |
-| `POST /api/nft/buy` | Purchase NFT (multisig enforced) |
-| `POST /api/nft/buy-multisig` | Purchase NFT alias |
+| Endpoint                     | Description                      |
+| :--------------------------- | :------------------------------- |
+| `GET /api/upload/find`       | All indexed NFTs feed            |
+| `GET /api/upload/my-nfts`    | Current user NFTs                |
+| `POST /api/nft/buy`          | Purchase NFT (multisig enforced) |
+| `POST /api/nft/buy-multisig` | Purchase NFT alias               |
 
 **`POST /api/nft/buy` request:**
+
 ```json
 {
   "tokenId": 12,
@@ -192,6 +193,7 @@ Feedback source: [Google Sheets](https://docs.google.com/spreadsheets/d/1NCXxc8W
 ```
 
 **Successful response:**
+
 ```json
 {
   "success": true,
@@ -208,10 +210,10 @@ Feedback source: [Google Sheets](https://docs.google.com/spreadsheets/d/1NCXxc8W
 
 ### Users
 
-| Endpoint | Description |
-| :--- | :--- |
-| `GET /api/wallet/search?name=<query>` | Creator search by name |
-| `GET /api/wallet/profile/:address` | Profile details by address |
+| Endpoint                              | Description                |
+| :------------------------------------ | :------------------------- |
+| `GET /api/wallet/search?name=<query>` | Creator search by name     |
+| `GET /api/wallet/profile/:address`    | Profile details by address |
 
 ## Data Indexing
 
@@ -235,16 +237,16 @@ Feedback source: [Google Sheets](https://docs.google.com/spreadsheets/d/1NCXxc8W
 
 ## Environment Variables
 
-| Variable | Description |
-| :--- | :--- |
-| `NEXT_PUBLIC_API_BASE_URL` | Backend base URL for frontend |
-| `RPC_URL` | Stellar RPC endpoint |
-| `PRIVATE_KEY` | Backend signing key |
-| `PINATA_JWT` | Pinata IPFS JWT |
-| `PINATA_GATEWAY` | Pinata gateway URL |
-| `JWT_SECRET` | JWT signing secret |
-| `MONGO_URI` | MongoDB connection string |
-| `CONTRACT_ADDRESS_CONTENTREGISTRY` | ContentRegistry contract ID |
+| Variable                           | Description                   |
+| :--------------------------------- | :---------------------------- |
+| `NEXT_PUBLIC_API_BASE_URL`         | Backend base URL for frontend |
+| `RPC_URL`                          | Stellar RPC endpoint          |
+| `PRIVATE_KEY`                      | Backend signing key           |
+| `PINATA_JWT`                       | Pinata IPFS JWT               |
+| `PINATA_GATEWAY`                   | Pinata gateway URL            |
+| `JWT_SECRET`                       | JWT signing secret            |
+| `MONGO_URI`                        | MongoDB connection string     |
+| `CONTRACT_ADDRESS_CONTENTREGISTRY` | ContentRegistry contract ID   |
 
 ## Local Development
 
@@ -290,13 +292,13 @@ cargo test --workspace
 
 Copy the provided `.env.example` (backend root) and fill in:
 
-| Variable | Where to get it |
-| :--- | :--- |
-| `MONGO_URI` | [MongoDB Atlas](https://cloud.mongodb.com) or local |
-| `JWT_SECRET` | Any long random string |
-| `PINATA_JWT` | [Pinata](https://app.pinata.cloud) API keys |
-| `PRIVATE_KEY` | Stellar testnet secret key |
-| `CONTRACT_ADDRESS_CONTENTREGISTRY` | From `scripts/deploy-testnet.sh` output |
+| Variable                           | Where to get it                                     |
+| :--------------------------------- | :-------------------------------------------------- |
+| `MONGO_URI`                        | [MongoDB Atlas](https://cloud.mongodb.com) or local |
+| `JWT_SECRET`                       | Any long random string                              |
+| `PINATA_JWT`                       | [Pinata](https://app.pinata.cloud) API keys         |
+| `PRIVATE_KEY`                      | Stellar testnet secret key                          |
+| `CONTRACT_ADDRESS_CONTENTREGISTRY` | From `scripts/deploy-testnet.sh` output             |
 
 ### Verification
 

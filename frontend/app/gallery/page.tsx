@@ -35,7 +35,10 @@ export default function GalleryPage() {
   }, [])
 
   const filtered = useMemo(
-    () => nfts.filter((nft) => `${nft.name} ${nft.description}`.toLowerCase().includes(query.toLowerCase())),
+    () =>
+      nfts.filter((nft) =>
+        `${nft.name} ${nft.description}`.toLowerCase().includes(query.toLowerCase()),
+      ),
     [nfts, query],
   )
 
@@ -61,7 +64,9 @@ export default function GalleryPage() {
 
       <section>
         {loading ? (
-          <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-8 text-zinc-300">Loading gallery...</div>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-8 text-zinc-300">
+            Loading gallery...
+          </div>
         ) : (
           <div className="columns-1 gap-5 sm:columns-2 lg:columns-3">
             {filtered.map((nft, index) => (
@@ -88,7 +93,9 @@ export default function GalleryPage() {
                 <div className="space-y-3 p-5">
                   <div>
                     <h2 className="text-lg font-semibold">{nft.name}</h2>
-                    <p className="mt-1 text-sm text-zinc-500">by {nft.owner.slice(0, 6)}...{nft.owner.slice(-4)}</p>
+                    <p className="mt-1 text-sm text-zinc-500">
+                      by {nft.owner.slice(0, 6)}...{nft.owner.slice(-4)}
+                    </p>
                   </div>
                   <p className="line-clamp-2 text-sm leading-6 text-zinc-400">{nft.description}</p>
                   <div className="flex items-center justify-between text-xs text-zinc-500">

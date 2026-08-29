@@ -1,9 +1,6 @@
 import { getBackendApiBaseUrl } from "@/lib/backend-url"
 
-export async function GET(
-  _request: Request,
-  context: { params: Promise<{ txHash: string }> },
-) {
+export async function GET(_request: Request, context: { params: Promise<{ txHash: string }> }) {
   try {
     const { txHash } = await context.params
     const backendUrl = getBackendApiBaseUrl()

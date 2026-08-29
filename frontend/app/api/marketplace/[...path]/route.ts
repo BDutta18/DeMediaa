@@ -41,17 +41,26 @@ export async function GET(request: NextRequest, context: { params: Promise<{ pat
   return proxyRequest(request, path)
 }
 
-export async function POST(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
+export async function POST(
+  request: NextRequest,
+  context: { params: Promise<{ path?: string[] }> },
+) {
   const { path } = await context.params
   return proxyRequest(request, path)
 }
 
-export async function PATCH(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ path?: string[] }> },
+) {
   const { path } = await context.params
   return proxyRequest(request, path)
 }
 
-export async function DELETE(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
+export async function DELETE(
+  request: NextRequest,
+  context: { params: Promise<{ path?: string[] }> },
+) {
   const { path } = await context.params
   return proxyRequest(request, path)
 }

@@ -31,7 +31,9 @@ export default function ContentPage() {
       try {
         const token = localStorage.getItem("demedia_token")
         if (!token) return
-        const response = await fetch("/api/nfts/my-nfts", { headers: { Authorization: `Bearer ${token}` } })
+        const response = await fetch("/api/nfts/my-nfts", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         const data = await response.json()
         if (data.success) setItems(data.data || [])
       } finally {
@@ -41,7 +43,10 @@ export default function ContentPage() {
   }, [])
 
   const filtered = useMemo(
-    () => items.filter((item) => `${item.name} ${item.description}`.toLowerCase().includes(query.toLowerCase())),
+    () =>
+      items.filter((item) =>
+        `${item.name} ${item.description}`.toLowerCase().includes(query.toLowerCase()),
+      ),
     [items, query],
   )
 
@@ -69,16 +74,23 @@ export default function ContentPage() {
 
       <section>
         {loading ? (
-          <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-8 text-zinc-300">Loading your library...</div>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-8 text-zinc-300">
+            Loading your library...
+          </div>
         ) : filtered.length === 0 ? (
           <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-10 text-center backdrop-blur">
             <h2 className="text-2xl font-semibold">No content yet.</h2>
-            <p className="mt-2 text-sm text-zinc-400">Upload your first asset to start building your DeMedia library.</p>
+            <p className="mt-2 text-sm text-zinc-400">
+              Upload your first asset to start building your DeMedia library.
+            </p>
           </div>
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((item) => (
-              <article key={item._id} className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] shadow-[0_20px_60px_rgba(0,0,0,0.22)] transition hover:-translate-y-1 hover:border-cyan-300/40">
+              <article
+                key={item._id}
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] shadow-[0_20px_60px_rgba(0,0,0,0.22)] transition hover:-translate-y-1 hover:border-cyan-300/40"
+              >
                 <img
                   src={resolveMediaUrl(item.imageURL)}
                   alt={item.name}
@@ -91,8 +103,12 @@ export default function ContentPage() {
                 />
                 <div className="p-5">
                   <p className="text-lg font-semibold">{item.name}</p>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-400">{item.description}</p>
-                  <p className="mt-4 text-xs text-zinc-500">#{item.tokenId} - {new Date(item.createdAt).toLocaleDateString()}</p>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-400">
+                    {item.description}
+                  </p>
+                  <p className="mt-4 text-xs text-zinc-500">
+                    #{item.tokenId} - {new Date(item.createdAt).toLocaleDateString()}
+                  </p>
                 </div>
               </article>
             ))}

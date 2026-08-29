@@ -13,4 +13,3 @@ export function GlassPanel({ children, className }: { children: ReactNode; class
     </div>
   )
 }
-

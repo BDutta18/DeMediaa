@@ -1,9 +1,6 @@
 "use client"
 
-import {
-  StellarWalletsKit,
-  Networks,
-} from "@creit.tech/stellar-wallets-kit"
+import { StellarWalletsKit, Networks } from "@creit.tech/stellar-wallets-kit"
 import {
   getAddress as freighterGetAddress,
   getNetwork as freighterGetNetwork,
@@ -71,7 +68,10 @@ export const connectWallet = async () => {
   } catch (error) {
     let hasFreighter = false
     try {
-      const connected = await timeout(freighterIsConnected() as unknown as Promise<Record<string, unknown>>, 2000)
+      const connected = await timeout(
+        freighterIsConnected() as unknown as Promise<Record<string, unknown>>,
+        2000,
+      )
       hasFreighter = !connected?.error
     } catch {
       // not available, fall through
@@ -91,7 +91,10 @@ export const connectWallet = async () => {
 
 export const getWalletAddress = async () => {
   try {
-    const result: Record<string, unknown> = await freighterGetAddress() as unknown as Record<string, unknown>
+    const result: Record<string, unknown> = (await freighterGetAddress()) as unknown as Record<
+      string,
+      unknown
+    >
     if (!result?.error && result?.address) return { address: result.address as string }
   } catch {
     // fall back to wallet-kit
@@ -102,13 +105,14 @@ export const getWalletAddress = async () => {
 export const signWalletMessage = async (message: string, address?: string) => {
   const config = getSelectedNetworkConfig()
   try {
-    const result: { signedMessage?: string; signerAddress?: string; error?: string } = await timeout(
-      freighterSignMessage(message, {
-        networkPassphrase: config.passphrase,
-        ...(address ? { address } : {}),
-      }) as unknown as Promise<Record<string, unknown>>,
-      30000,
-    )
+    const result: { signedMessage?: string; signerAddress?: string; error?: string } =
+      await timeout(
+        freighterSignMessage(message, {
+          networkPassphrase: config.passphrase,
+          ...(address ? { address } : {}),
+        }) as unknown as Promise<Record<string, unknown>>,
+        30000,
+      )
     if (result?.error) throw new Error(result.error)
     if (result?.signedMessage && result?.signerAddress) {
       return { signedMessage: result.signedMessage, signerAddress: result.signerAddress }

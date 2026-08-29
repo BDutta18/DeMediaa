@@ -101,9 +101,7 @@ export default function LoadingAnimation({ onComplete }: LoadingAnimationProps) 
           </div>
 
           {/* Loading text */}
-          <div className="text-sm text-gray-500 font-mono">
-            Initializing Network...
-          </div>
+          <div className="text-sm text-gray-500 font-mono">Initializing Network...</div>
         </div>
       </div>
 

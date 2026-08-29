@@ -1,16 +1,16 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose"
 
 export interface IUser extends Document {
-  address: string;
-  name?: string;
-  email?: string;
-  avatar?: string;
-  bio?: string;
-  banner?: string;
-  accentColor?: string;
-  showcaseTitle?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  address: string
+  name?: string
+  email?: string
+  avatar?: string
+  bio?: string
+  banner?: string
+  accentColor?: string
+  showcaseTitle?: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 const userSchema: Schema<IUser> = new Schema(
@@ -58,7 +58,7 @@ const userSchema: Schema<IUser> = new Schema(
   },
   {
     timestamps: true, // auto adds createdAt & updatedAt
-  }
-);
+  },
+)
 
-export default mongoose.model<IUser>("User", userSchema);
+export default mongoose.model<IUser>("User", userSchema)

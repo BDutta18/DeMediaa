@@ -4,7 +4,10 @@ const isLikelyIpfsHash = (value: string): boolean => {
   return /^Qm[1-9A-HJ-NP-Za-km-z]{44}$/.test(value) || /^bafy[a-z0-9]{20,}$/i.test(value)
 }
 
-export const resolveMediaUrl = (value?: string | null, fallback: string = DEFAULT_PLACEHOLDER): string => {
+export const resolveMediaUrl = (
+  value?: string | null,
+  fallback: string = DEFAULT_PLACEHOLDER,
+): string => {
   if (!value) return fallback
 
   const raw = value.trim()

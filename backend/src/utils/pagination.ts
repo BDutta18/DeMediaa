@@ -1,9 +1,9 @@
-import { Request } from 'express';
+import { Request } from "express"
 
 export interface PaginationMeta {
-  page: number;
-  limit: number;
-  skip: number;
+  page: number
+  limit: number
+  skip: number
 }
 
 /**
@@ -18,29 +18,24 @@ export const parsePagination = (
   maxLimit = 100,
   defaultLimit = 20,
 ): PaginationMeta => {
-  const rawPage = parseInt(String(req.query.page ?? '1'), 10);
-  const rawLimit = parseInt(String(req.query.limit ?? String(defaultLimit)), 10);
+  const rawPage = parseInt(String(req.query.page ?? "1"), 10)
+  const rawLimit = parseInt(String(req.query.limit ?? String(defaultLimit)), 10)
 
-  const page = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
-  const limit = Number.isFinite(rawLimit) && rawLimit > 0
-    ? Math.min(rawLimit, maxLimit)
-    : defaultLimit;
+  const page = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1
+  const limit =
+    Number.isFinite(rawLimit) && rawLimit > 0 ? Math.min(rawLimit, maxLimit) : defaultLimit
 
   return {
     page,
     limit,
     skip: (page - 1) * limit,
-  };
-};
+  }
+}
 
 /**
  * Builds a paginated response envelope.
  */
-export const paginatedResponse = <T>(
-  data: T[],
-  total: number,
-  meta: PaginationMeta,
-) => ({
+export const paginatedResponse = <T>(data: T[], total: number, meta: PaginationMeta) => ({
   success: true,
   data,
   pagination: {
@@ -51,4 +46,4 @@ export const paginatedResponse = <T>(
     hasNext: meta.page * meta.limit < total,
     hasPrev: meta.page > 1,
   },
-});
+})
