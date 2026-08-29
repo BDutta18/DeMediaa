@@ -21,7 +21,7 @@ export const requireFields = (fields: string[]) => {
       res.status(400).json({
         success: false,
         code: 'MISSING_FIELDS',
-        message: Missing required fields: ,
+        message: `Missing required fields: ${missing.join(', ')}`,
         fields: missing,
       });
       return;
@@ -47,7 +47,7 @@ export const validateRating = (
       res.status(400).json({
         success: false,
         code: 'INVALID_RATING',
-        message: '' must be a number between  and .,
+        message: `'${field}' must be a number between ${min} and ${max}.`,
       });
       return;
     }

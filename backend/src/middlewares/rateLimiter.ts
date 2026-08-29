@@ -39,7 +39,7 @@ export const rateLimiter = (
       res.status(429).json({
         success: false,
         code: 'RATE_LIMITED',
-        message: Too many requests. Retry after s.,
+        message: `Too many requests. Retry after ${retryAfter}s.`,
       });
       return;
     }

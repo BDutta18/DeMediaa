@@ -19,7 +19,7 @@ export const errorHandler = (
   const status = err.status ?? 500;
   const isDev = process.env.NODE_ENV === 'development';
 
-  console.error([] Error : );
+  console.error(`[${new Date().toISOString()}] Error ${status}: ${err.message}`);
 
   res.status(status).json({
     success: false,
