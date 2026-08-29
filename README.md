@@ -474,6 +474,3 @@ npm run validate
 
 ---
 
-<p align="center">
-  Built with ❤️ on <a href="https://stellar.org">Stellar</a> · MIT License
-</p>
