@@ -2,7 +2,12 @@
 
 export type LicenseType = "personal" | "commercial" | "exclusive"
 export type MarketplaceSortMode =
-  "trending" | "popular" | "newest" | "price-asc" | "price-desc" | "rating"
+  | "trending"
+  | "popular"
+  | "newest"
+  | "price-asc"
+  | "price-desc"
+  | "rating"
 
 export interface MarketplaceListing {
   _id: string

@@ -198,9 +198,13 @@ export default function AuthPage() {
       const profile = profileData?.user
       const hasProfile = Boolean(
         profileRes?.ok &&
-        profileData?.success &&
-        profile &&
-        (profile.name || profile.avatar || profile.bio || profile.banner || profile.showcaseTitle),
+          profileData?.success &&
+          profile &&
+          (profile.name ||
+            profile.avatar ||
+            profile.bio ||
+            profile.banner ||
+            profile.showcaseTitle),
       )
       router.push(hasProfile ? "/dashboard" : "/profile?setup=1")
     } catch (error) {

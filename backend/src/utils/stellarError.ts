@@ -1,5 +1,9 @@
 export type WalletTxErrorCode =
-  "WALLET_NOT_FOUND" | "WALLET_REJECTED" | "INSUFFICIENT_BALANCE" | "NETWORK_MISMATCH" | "UNKNOWN"
+  | "WALLET_NOT_FOUND"
+  | "WALLET_REJECTED"
+  | "INSUFFICIENT_BALANCE"
+  | "NETWORK_MISMATCH"
+  | "UNKNOWN"
 
 const includesAny = (value: string, terms: string[]): boolean =>
   terms.some((term) => value.includes(term))

@@ -67,7 +67,10 @@ router.post("/upload", walletProtect, upload.single("file"), async (req, res) =>
     const registryResult = await uploadContentToBlockchain(imageCid, fileHash)
     if (!registryResult.success) {
       const typedError = registryResult.error as
-        { code?: string; message?: string; address?: string } | Error | string | undefined
+        | { code?: string; message?: string; address?: string }
+        | Error
+        | string
+        | undefined
       const detail =
         registryResult.error instanceof Error
           ? registryResult.error.message

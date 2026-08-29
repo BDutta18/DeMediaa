@@ -16,6 +16,7 @@ If you discover a security vulnerability in DeMedia, please report it responsibl
 ### Steps
 
 1. Email the maintainer at **bodhisatwadutta025@gmail.com** with:
+
    - A clear description of the vulnerability
    - Steps to reproduce or a proof of concept
    - The potential impact and affected components

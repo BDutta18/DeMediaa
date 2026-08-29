@@ -214,7 +214,7 @@ The deck covers:
 | 4   | Upload lag while handling documents         | IPFS upload optimisation                   |   📋 Planned   | —                                                                |
 | 5   | Profile picture not showing consistently    | Profile image cache fix                    |   📋 Planned   | —                                                                |
 | 6   | UI should be improved                       | Full UI refresh + mobile fixes             |    ✅ Done     | [`789fce7`](https://github.com/BDutta18/DeMediaa/commit/789fce7) |
-| 7   | Buying NFTs as a V2 feature                 | NFT marketplace                            |  🗺 V2 Roadmap  | —                                                                |
+| 7   | Buying NFTs as a V2 feature                 | NFT marketplace                            | 🗺 V2 Roadmap  | —                                                                |
 | 8   | General positive feedback about concept     | Logged for pitch deck                      |   ✅ Logged    | —                                                                |
 
 ---
@@ -469,8 +469,7 @@ npm run validate
 | 📊 **Pitch Deck**          | _(add your link here)_                                                                                   |
 | 📋 **Feedback Form**       | https://docs.google.com/forms/d/e/1FAIpQLSenLrFe8At5Vp8OUpLxGLAfRUHtRpnFHDhPhhjVNWokwEAIsg/viewform      |
 | 📈 **User Feedback Sheet** | https://docs.google.com/spreadsheets/d/1NCXxc8W2l84xPI76iBJHE5T7vbewJjRJimM3TimVu1A/edit                 |
-| ⛓ **Mainnet Explorer**     | https://stellar.expert/explorer/public/contract/CCHCKK24M5DPUCS3AMLS3SC5DFU42L6YXLN7PH5NFQ7EX63COGJSBIRM |
+| ⛓ **Mainnet Explorer**    | https://stellar.expert/explorer/public/contract/CCHCKK24M5DPUCS3AMLS3SC5DFU42L6YXLN7PH5NFQ7EX63COGJSBIRM |
 | 📜 **Commit History**      | https://github.com/BDutta18/DeMediaa/commits/main                                                        |
 
 ---
-
