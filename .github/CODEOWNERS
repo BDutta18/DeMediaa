@@ -1,0 +1,11 @@
+# Global code owner — all PRs require review from BDutta18
+* @BDutta18
+
+# Smart contracts require extra review
+/contracts/ @BDutta18
+
+# Backend requires review
+/backend/ @BDutta18
+
+# Frontend requires review
+/frontend/ @BDutta18
