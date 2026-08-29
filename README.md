@@ -248,17 +248,55 @@ Feedback source: [Google Sheets](https://docs.google.com/spreadsheets/d/1NCXxc8W
 
 ## Local Development
 
-```bash
-# Clone and install backend
-cd backend
-npm install
-npm run dev
+### Prerequisites
 
-# In a separate terminal — frontend
-cd ../frontend
+- **Node.js** ≥ 20
+- **npm** ≥ 10
+- **Rust** + `wasm32-unknown-unknown` target (for contracts)
+- **MongoDB** instance (local or Atlas)
+- **Freighter** browser extension (for wallet interactions)
+- A funded Stellar **testnet** account
+
+### Quickstart
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/BDutta18/DeMedia.git
+cd DeMedia
+
+# 2. Set up backend environment
+cd backend
+cp ../.env.example .env          # fill in your secrets
 npm install
-npm run dev
+npm run dev                       # starts on http://localhost:4000
+
+# 3. In a separate terminal — frontend
+cd ../frontend
+cp .env.example .env.local        # set NEXT_PUBLIC_API_BASE_URL=http://localhost:4000
+npm install
+npm run dev                       # starts on http://localhost:3000
 ```
+
+### Smart Contracts (optional)
+
+```bash
+# Install Stellar CLI and Rust target
+rustup target add wasm32-unknown-unknown
+cargo build --workspace
+cargo test --workspace
+```
+
+### Environment Setup
+
+Copy the provided `.env.example` (backend root) and fill in:
+
+| Variable | Where to get it |
+| :--- | :--- |
+| `MONGO_URI` | [MongoDB Atlas](https://cloud.mongodb.com) or local |
+| `JWT_SECRET` | Any long random string |
+| `PINATA_JWT` | [Pinata](https://app.pinata.cloud) API keys |
+| `PRIVATE_KEY` | Stellar testnet secret key |
+| `CONTRACT_ADDRESS_CONTENTREGISTRY` | From `scripts/deploy-testnet.sh` output |
 
 ### Verification
 
