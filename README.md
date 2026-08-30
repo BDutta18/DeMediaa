@@ -18,7 +18,7 @@
 <p align="center">
   <a href="https://de-media-xi.vercel.app/">🌐 Live App</a> •
   <a href="https://youtu.be/gBS61AKJD3o">🎥 Demo Video</a> •
-  <a href="#ppt--pitch-deck">📊 Pitch Deck</a> •
+  <a href="https://drive.google.com/file/d/1rszJch9KdfTRh4oIb9OZ8Kgx0nfANR0O/view?usp=sharing">📊 Pitch Deck</a> •
   <a href="https://docs.google.com/forms/d/e/1FAIpQLSenLrFe8At5Vp8OUpLxGLAfRUHtRpnFHDhPhhjVNWokwEAIsg/viewform">📋 Feedback Form</a>
 </p>
 
@@ -121,7 +121,7 @@ Creator uploads file
 
 ## 📊 PPT / Pitch Deck
 
-> 🔗 **[View Pitch Deck — Google Slides](#)** ← _replace `#` with your actual link_
+> 🔗 **[View Pitch Deck — Google Slides](https://drive.google.com/file/d/1rszJch9KdfTRh4oIb9OZ8Kgx0nfANR0O/view?usp=sharing)** ← _replace `#` with your actual link_
 
 The deck covers:
 
