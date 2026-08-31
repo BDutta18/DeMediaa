@@ -1,0 +1,14 @@
+﻿# Force LF line endings for all text files to avoid Windows CRLF issues in CI
+* text=auto eol=lf
+
+# Explicitly set binary files to avoid mangling
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
