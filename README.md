@@ -466,7 +466,7 @@ npm run validate
 | :------------------------- | :------------------------------------------------------------------------------------------------------- |
 | 🌐 **Live Application**    | https://de-media-xi.vercel.app/                                                                          |
 | 📹 **Demo Video**          | https://youtu.be/gBS61AKJD3o                                                                             |
-| 📊 **Pitch Deck**          | https://drive.google.com/file/d/1rszJch9KdfTRh4oIb9OZ8Kgx0nfANR0O/view?usp=sharing                                                  |
+| 📊 **Pitch Deck**          | https://drive.google.com/file/d/1rszJch9KdfTRh4oIb9OZ8Kgx0nfANR0O/view?usp=sharing                       |
 | 📋 **Feedback Form**       | https://docs.google.com/forms/d/e/1FAIpQLSenLrFe8At5Vp8OUpLxGLAfRUHtRpnFHDhPhhjVNWokwEAIsg/viewform      |
 | 📈 **User Feedback Sheet** | https://docs.google.com/spreadsheets/d/1NCXxc8W2l84xPI76iBJHE5T7vbewJjRJimM3TimVu1A/edit                 |
 | ⛓ **Mainnet Explorer**    | https://stellar.expert/explorer/public/contract/CCHCKK24M5DPUCS3AMLS3SC5DFU42L6YXLN7PH5NFQ7EX63COGJSBIRM |
