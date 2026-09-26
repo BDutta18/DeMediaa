@@ -473,3 +473,6 @@ npm run validate
 | 📜 **Commit History**      | https://github.com/BDutta18/DeMediaa/commits/main                                                        |
 
 ---
+
+Build for SJTM 1.0 & SJTM 2.0
+
